@@ -1,0 +1,2986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anarky Forum | Elite Underground Tech & Digital Resource Hub</title>
+    <link id="dynamicFavicon" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cinzel+Decorative:wght@700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-body: #0d0e11;
+            --bg-panel: #181a1f;
+            --bg-row: #1d2026;
+            --bg-row-hover: #252932;
+            --bg-nav: #14161a;
+            --accent-red: #d92638;
+            --accent-red-hover: #f03245;
+            --accent-orange: #e69d35;
+            --accent-green: #23a55a;
+            --border-color: #2a2e37;
+            --text-main: #e4e6eb;
+            --text-muted: #8b92a1;
+            --custom-bg-image: none;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            background-image:
+                linear-gradient(rgba(13, 14, 17, 0.85), rgba(13, 14, 17, 0.94)),
+                var(--custom-bg-image),
+                radial-gradient(circle at 50% 0%, #3a0c11 0%, #0d0e11 45%);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-size: 13px;
+        }
+
+        a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+        button { font-family: inherit; cursor: pointer; }
+
+        /* ================= YETKİ RENKLERİ & PARILTI ANİMASYONLARI ================= */
+        @keyframes sparklePulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 3px currentColor);
+                text-shadow: 0 0 6px currentColor;
+            }
+            50% {
+                filter: drop-shadow(0 0 11px currentColor) brightness(1.3);
+                text-shadow: 0 0 15px currentColor, 0 0 25px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        @keyframes prismSparkle {
+            0% { color: #ff4757; }
+            25% { color: #ffa502; }
+            50% { color: #2ed573; }
+            75% { color: #38bdf8; }
+            100% { color: #ff4757; }
+        }
+
+        .role-admin { color: #ff2e43 !important; font-weight: 800; animation: sparklePulse 1.6s infinite ease-in-out; }
+        .role-legendary { color: #22e5ff !important; font-weight: 800; animation: sparklePulse 1.8s infinite ease-in-out; }
+        .role-verified { color: #2ecc71 !important; font-weight: 700; animation: sparklePulse 2.1s infinite ease-in-out; }
+        .role-vip { color: #ffd32a !important; font-weight: 800; animation: sparklePulse 1.9s infinite ease-in-out; }
+        .role-pro { color: #ff7f50 !important; font-weight: 700; text-shadow: 0 0 8px rgba(255, 127, 80, 0.65); }
+        .role-mod { color: #c084fc !important; font-weight: 700; animation: sparklePulse 2.2s infinite ease-in-out; }
+        .role-sparkle-mythic { font-weight: 800; animation: prismSparkle 3.4s infinite linear, sparklePulse 1.5s infinite ease-in-out; }
+        .role-member { color: #c5cbd6; font-weight: 500; }
+
+        /* ================= ÖZEL GRAFİK ROZET KARTLARI ================= */
+        .graphic-rank-banner {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: 'Cinzel Decorative', cursive;
+            font-weight: 900;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 3px 4px 3px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.65);
+        }
+
+        .grb-founder { background: linear-gradient(135deg, #2b060a 0%, #5c0b14 100%); border: 1.5px solid #ff2e43; color: #ff2e43; text-shadow: 0 0 8px rgba(255, 46, 67, 0.9); }
+        .grb-legendary { background: linear-gradient(135deg, #06242b 0%, #0a4857 100%); border: 1.5px solid #22e5ff; color: #22e5ff; text-shadow: 0 0 8px rgba(34, 229, 255, 0.85); }
+        .grb-expert { background: linear-gradient(135deg, #261404 0%, #4d2606 100%); border: 1.5px solid #ff8c24; color: #ff8c24; text-shadow: 0 0 8px rgba(255, 140, 36, 0.85); }
+        .grb-topvip { background: linear-gradient(135deg, #292203 0%, #544606 100%); border: 1.5px solid #ffd32a; color: #ffd32a; text-shadow: 0 0 8px rgba(255, 211, 42, 0.85); }
+        .grb-verified { background: linear-gradient(135deg, #072914 0%, #0d4f26 100%); border: 1.5px solid #2ecc71; color: #2ecc71; text-shadow: 0 0 8px rgba(46, 204, 113, 0.85); }
+
+        /* ================= HEADER (LOGO KALDIRILDI, OPSİYONEL YÜKLENEN LOGO DESTEKLİ) ================= */
+        .top-header {
+            position: relative;
+            height: 120px;
+            background:
+                linear-gradient(180deg, rgba(45, 8, 12, 0.84) 0%, rgba(13, 14, 17, 0.96) 100%),
+                var(--custom-bg-image),
+                repeating-linear-gradient(45deg, #1a0507 0px, #1a0507 20px, #24070a 20px, #24070a 40px);
+            background-size: cover;
+            background-position: center;
+            border-bottom: 1px solid #3d1216;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 15px 30px;
+            overflow: hidden;
+        }
+
+        .top-header.has-custom-logo { height: 185px; }
+
+        .header-top-bar { display: flex; justify-content: space-between; align-items: center; z-index: 3; gap: 10px; flex-wrap: wrap; }
+        .brand-slogan { font-family: 'Cinzel Decorative', cursive; font-size: 18px; color: #f5d0d3; text-shadow: 0 0 10px rgba(217, 38, 56, 0.8); letter-spacing: 1px; }
+        .header-right-tools { display: flex; align-items: center; gap: 12px; }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            color: #ccc;
+            font-size: 14px;
+            margin-left: 4px;
+        }
+
+        .social-icons a:hover { background: var(--accent-red); color: #fff; }
+
+        .search-box { position: relative; display: flex; align-items: center; }
+
+        .search-box input {
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid #3a3f4b;
+            color: #fff;
+            padding: 7px 35px 7px 12px;
+            border-radius: 4px;
+            width: 240px;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .search-box input:focus { border-color: var(--accent-red); }
+        .search-box i { position: absolute; right: 12px; color: var(--text-muted); font-size: 12px; }
+
+        .center-logo-area {
+            position: absolute;
+            top: 56%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+            display: none;
+        }
+
+        .center-logo-area.visible { display: block; }
+        .center-logo-area img.custom-logo-img { max-height: 78px; max-width: 260px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.8)); }
+
+        /* ================= NAVBAR & BİLDİRİM / DM ================= */
+        .navbar {
+            background-color: var(--bg-nav);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 44px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            flex-wrap: wrap;
+        }
+
+        .nav-links { display: flex; align-items: center; list-style: none; flex-wrap: wrap; }
+
+        .nav-links li a {
+            padding: 13px 15px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #c2c7d0;
+            font-weight: 500;
+            font-size: 13px;
+            border-right: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .nav-links li a:hover { background-color: rgba(255, 255, 255, 0.04); color: #fff; }
+        .nav-links li a.active { background-color: var(--accent-red); color: #fff; }
+
+        .nav-user-menu { display: flex; align-items: center; gap: 10px; color: #c2c7d0; padding: 5px 0; position: relative; }
+
+        .icon-pill-btn {
+            position: relative;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            color: #d1d5db;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+
+        .icon-pill-btn:hover { border-color: var(--accent-red); color: #fff; }
+
+        .count-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-red);
+            color: #fff;
+            font-size: 9.5px;
+            font-weight: 800;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 99px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            box-shadow: 0 0 8px var(--accent-red);
+        }
+
+        .notif-dropdown {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            width: 340px;
+            background: #181a1f;
+            border: 1px solid var(--border-color);
+            border-top: 2px solid var(--accent-red);
+            border-radius: 5px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.75);
+            z-index: 300;
+            display: none;
+            overflow: hidden;
+        }
+
+        .notif-dropdown.open { display: block; }
+        .notif-header { padding: 9px 12px; background: #13151a; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; }
+        .notif-item { padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 11.5px; color: #d1d5db; display: block; cursor: pointer; }
+        .notif-item.unread { background: rgba(217, 38, 56, 0.14); border-left: 3px solid var(--accent-red); }
+        .notif-item:hover { background: rgba(255,255,255,0.05); }
+
+        /* ================= CONTAINER & TAM GENİŞLİK GIF REKLAM ALANI ================= */
+        .container { max-width: 1360px; margin: 18px auto; padding: 0 20px; }
+
+        .top-full-banner-wrapper { margin-bottom: 18px; }
+
+        .main-banner-slot {
+            background: linear-gradient(135deg, #1b222c 0%, #12161d 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            text-align: center;
+            min-height: 100px;
+            overflow: hidden;
+        }
+
+        .gif-gallery-grid { width: 100%; display: grid; gap: 12px; align-items: center; }
+        .gif-gallery-grid.count-1 { grid-template-columns: 1fr; }
+        .gif-gallery-grid.count-2 { grid-template-columns: repeat(2, 1fr); }
+        .gif-gallery-grid.count-3plus { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+        .gif-ad-card {
+            position: relative;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gif-ad-card a.gif-clickable { width: 100%; display: block; }
+        .gif-ad-card img { width: 100%; height: auto; max-height: 130px; object-fit: contain; display: block; }
+        .gif-gallery-grid.count-3plus .gif-ad-card img { max-height: 95px; }
+
+        .gif-ad-meta {
+            width: 100%;
+            background: rgba(15, 17, 21, 0.9);
+            padding: 4px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* ================= FORUM HEADER & 1-15 THREADS ================= */
+        .forum-header-bar {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .forum-main-title { font-size: 17px; font-weight: 600; color: #fff; }
+        .forum-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .btn {
+            padding: 7px 14px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-sm { padding: 4px 8px; font-size: 11px; }
+        .btn-red { background-color: var(--accent-red); color: #fff; }
+        .btn-red:hover { background-color: var(--accent-red-hover); }
+        .btn-orange { background-color: var(--accent-orange); color: #111; }
+        .btn-orange:hover { background-color: #f3ae49; }
+        .btn-green { background-color: var(--accent-green); color: #fff; }
+        .btn-green:hover { background-color: #2bc26b; }
+        .btn-dark { background-color: #262a34; color: #e4e6eb; border: 1px solid #383e4d; }
+        .btn-dark:hover { background-color: #323744; }
+
+        .stats-widget {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .stats-tabs-header {
+            background: #14161a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-right: 12px;
+        }
+
+        .tabs-list { display: flex; list-style: none; flex-wrap: wrap; }
+
+        .tab-item {
+            padding: 10px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .tab-item:hover { color: #fff; background: rgba(255,255,255,0.03); }
+        .tab-item.active { background: var(--bg-panel); color: #fff; border-top: 2px solid var(--accent-red); }
+
+        .thread-list { display: flex; flex-direction: column; }
+
+        .thread-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            background: var(--bg-row);
+            gap: 8px;
+        }
+
+        .thread-row:nth-child(even) { background: #191c22; }
+        .thread-row:hover { background: var(--bg-row-hover); }
+
+        .thread-row.pinned-highlight {
+            background: linear-gradient(90deg, rgba(168, 36, 48, 0.55) 0%, rgba(120, 24, 34, 0.35) 100%);
+            border-top: 1px solid rgba(217, 38, 56, 0.4);
+            border-bottom: 1px solid rgba(217, 38, 56, 0.4);
+        }
+
+        .thread-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding-right: 10px;
+        }
+
+        .rank-badge {
+            min-width: 18px;
+            height: 18px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #4b5262;
+            color: #fff;
+        }
+
+        .rank-badge.top-1 { background: #d92638; }
+        .rank-badge.top-2 { background: #e67e22; }
+        .rank-badge.top-3 { background: #d4ac0d; color: #111; }
+
+        .prefix { padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .prefix-blue { background: #2980b9; color: #fff; }
+        .prefix-green { background: #27ae60; color: #fff; }
+        .prefix-gold { background: #f39c12; color: #111; }
+
+        .thread-title { color: #e4e6eb; font-weight: 500; font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; }
+        .thread-title:hover { color: #ff4d5e; text-decoration: underline; }
+
+        .thread-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; font-size: 11.5px; }
+        .thread-time { color: var(--text-muted); min-width: 82px; text-align: right; }
+        .thread-author { min-width: 105px; text-align: right; font-weight: 600; }
+
+        .user-admin { color: #ff4757; }
+        .user-vip { color: #ffa502; }
+        .user-pro { color: #1e90ff; }
+        .user-default { color: #a4b0be; }
+
+        /* ================= CATEGORIES & NODES ================= */
+        .category-block {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .category-header {
+            background: linear-gradient(90deg, #1f232b 0%, #16181e 100%);
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent-red);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-header h2 { font-size: 15px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }
+        .category-body.collapsed { display: none; }
+
+        .node-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s;
+        }
+
+        .node-row:last-child { border-bottom: none; }
+        .node-row:hover { background: rgba(255, 255, 255, 0.025); }
+
+        .node-main { display: flex; align-items: flex-start; gap: 15px; flex: 1; padding-right: 15px; }
+
+        .node-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 6px;
+            background: rgba(217, 38, 56, 0.12);
+            border: 1px solid rgba(217, 38, 56, 0.3);
+            color: var(--accent-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .node-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 3px; display: inline-flex; align-items: center; gap: 8px; }
+        .node-title:hover { color: var(--accent-red); }
+        .node-desc { color: var(--text-muted); font-size: 12px; line-height: 1.4; }
+
+        .subforums-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(190px, 1fr));
+            gap: 6px 24px;
+            margin-top: 8px;
+            padding-top: 7px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.06);
+        }
+
+        .subforum-item-wrap { display: flex; align-items: center; gap: 6px; }
+        .subforum-link { font-size: 12px; color: #c5cbd6; display: inline-flex; align-items: center; gap: 6px; }
+        .subforum-link:hover { color: var(--accent-red); }
+
+        .node-right-panel { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+        .node-stats { display: flex; gap: 20px; text-align: center; }
+        .stat-box { min-width: 60px; }
+        .stat-label { display: block; font-size: 11px; color: var(--text-muted); }
+        .stat-value { font-size: 13px; font-weight: 700; color: #e4e6eb; }
+
+        .node-last-post {
+            width: 230px;
+            border-left: 1px solid var(--border-color);
+            padding-left: 14px;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            overflow: hidden;
+        }
+
+        .node-last-post a { display: block; font-size: 12px; color: #d1d5db; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+
+        /* ================= GELİŞMİŞ POST THREAD EDİTÖRÜ ================= */
+        .post-editor-shell { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; margin-bottom: 18px; }
+        .post-editor-topbar { background: #14161a; padding: 10px 16px; border-bottom: 1px solid var(--border-color); font-size: 15px; font-weight: 700; color: #fff; }
+        .post-title-row { display: grid; grid-template-columns: 140px 1fr; gap: 10px; padding: 14px 16px 8px; }
+        .post-mode-tabs { display: flex; gap: 6px; padding: 0 16px; border-bottom: 1px solid var(--border-color); }
+
+        .post-mode-tab {
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+        }
+
+        .post-mode-tab.active { color: #fff; background: #1f232b; border-bottom-color: var(--accent-red); border-radius: 4px 4px 0 0; }
+        .google-preview-box { margin: 12px 16px; background: #15181e; border: 1px solid #2b303c; border-radius: 4px; padding: 10px 14px; }
+        .google-preview-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .google-preview-url { font-size: 11px; color: #788296; margin-bottom: 2px; }
+        .google-preview-title { font-size: 15px; color: #5aa9ff; font-weight: 600; }
+        .google-preview-meta { font-size: 11px; color: #8b92a1; margin-top: 6px; }
+        .word-count-bar { padding: 6px 16px; font-size: 11px; color: var(--text-muted); background: #16181d; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+        .rte-toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px; padding: 8px 14px; background: #14161a; border-bottom: 1px solid var(--border-color); }
+        .rte-btn-group { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+        .rte-btn { background: transparent; border: 1px solid transparent; color: #c5cbd6; padding: 5px 8px; border-radius: 3px; font-size: 12px; }
+        .rte-btn:hover { background: rgba(255,255,255,0.06); color: #fff; border-color: #353b48; }
+        .rte-textarea { width: 100%; min-height: 220px; background: #1b1e24; border: none; color: #f0f2f5; padding: 14px 16px; font-size: 13.5px; line-height: 1.55; outline: none; resize: vertical; }
+        .post-meta-fields { padding: 14px 16px; background: #181a1f; border-top: 1px solid var(--border-color); }
+        .meta-grid-row { display: grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: start; margin-bottom: 12px; }
+        .post-submit-footer { padding: 12px 16px; background: #14161a; border-top: 1px solid var(--border-color); }
+
+        /* ================= PROFİL BANNER & ROZET KARTI ================= */
+        .profile-hero-card { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; margin-bottom: 18px; }
+        .profile-banner-strip { height: 185px; background: linear-gradient(135deg, #2b090e 0%, #12141a 100%); position: relative; }
+        .profile-banner-strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .profile-details-body { padding: 18px 22px; display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
+
+        .profile-avatar-lg {
+            width: 92px;
+            height: 92px;
+            border-radius: 8px;
+            border: 3px solid var(--bg-panel);
+            margin-top: -48px;
+            background: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 800;
+            color: #fff;
+            overflow: hidden;
+            flex-shrink: 0;
+            z-index: 2;
+        }
+
+        .profile-avatar-lg img { width: 100%; height: 100%; object-fit: cover; }
+
+        .profile-stats-bar {
+            display: flex;
+            gap: 28px;
+            padding: 12px 22px;
+            background: #13151a;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .p-stat-item span { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 2px; }
+        .p-stat-item strong { font-size: 15px; font-weight: 700; color: #fff; }
+
+        /* ================= MEMBERS & DM & CARDS ================= */
+        .members-directory-layout { display: grid; grid-template-columns: 230px 1fr; gap: 16px; align-items: start; }
+        .members-side-nav { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; }
+        .members-side-title { padding: 10px 14px; font-weight: 700; font-size: 13px; background: #14161a; border-bottom: 1px solid var(--border-color); }
+        .members-side-item { display: flex; align-items: center; gap: 8px; padding: 9px 14px; font-size: 12px; color: #c5cbd6; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; }
+        .members-side-item:hover, .members-side-item.active { background: rgba(217, 38, 56, 0.16); color: #fff; border-left: 3px solid var(--accent-red); }
+        .online-cloud-box { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 4px; padding: 14px 16px; margin-bottom: 16px; line-height: 1.85; font-size: 12.5px; }
+        .leaderboards-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+        .leader-card { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 4px; padding: 14px; }
+        .leader-card h4 { font-size: 13px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 6px; }
+        .leader-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px; }
+
+        .dm-layout { display: grid; grid-template-columns: 270px 1fr; gap: 16px; min-height: 420px; }
+        .dm-sidebar { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; }
+        .dm-thread-item { padding: 9px 10px; border-radius: 4px; cursor: pointer; margin-bottom: 6px; background: var(--bg-row); border: 1px solid transparent; }
+        .dm-thread-item.active, .dm-thread-item:hover { border-color: var(--accent-red); background: var(--bg-row-hover); }
+        .dm-chat-panel { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 4px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; }
+        .dm-messages-box { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+        .dm-bubble { background: #14161b; border: 1px solid var(--border-color); border-radius: 5px; padding: 9px 12px; font-size: 12.5px; }
+
+        .badge { padding: 2px 7px; border-radius: 3px; font-size: 10px; font-weight: 700; text-transform: uppercase; display: inline-flex; align-items: center; gap: 4px; }
+        .badge-verified { background: rgba(35, 165, 90, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
+        .badge-admin { background: rgba(217, 38, 56, 0.25); color: #ff5c6c; border: 1px solid #ff5c6c; }
+        .badge-pending { background: rgba(230, 157, 53, 0.2); color: #f39c12; border: 1px solid #f39c12; }
+        .badge-member { background: rgba(52, 152, 219, 0.2); color: #5dade2; border: 1px solid #5dade2; }
+
+        .breadcrumb-bar {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 10px 16px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .breadcrumb-links { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 12px; }
+        .breadcrumb-links a:hover { color: #fff; text-decoration: underline; }
+
+        .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px; margin-bottom: 20px; }
+
+        .admin-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-top: 3px solid var(--accent-red);
+            border-radius: 5px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+
+        .admin-card h3 { font-size: 15px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 8px; }
+
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 12px; color: #ccc; font-weight: 600; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            background: #101216;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 8px 11px;
+            border-radius: 4px;
+            font-size: 12.5px;
+            outline: none;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-red); }
+
+        table.admin-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        table.admin-table th, table.admin-table td { padding: 9px 10px; border-bottom: 1px solid var(--border-color); text-align: left; }
+        table.admin-table th { background: #13151a; color: var(--text-muted); }
+
+        .post-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            display: grid;
+            grid-template-columns: 215px 1fr;
+            margin-bottom: 14px;
+            overflow: hidden;
+        }
+
+        .post-author-sidebar {
+            background: #14161b;
+            border-right: 1px solid var(--border-color);
+            padding: 18px 14px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .avatar-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #d92638, #6b111b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .post-content-area { padding: 16px 20px; display: flex; flex-direction: column; justify-content: space-between; }
+        .post-meta-top {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 11.5px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            margin-bottom: 12px;
+        }
+        .post-body-text { font-size: 13.5px; line-height: 1.6; color: #eef0f4; white-space: pre-wrap; margin-bottom: 14px; }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.82);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 15px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: #181a1f;
+            border: 1px solid var(--border-color);
+            border-top: 3px solid var(--accent-red);
+            border-radius: 6px;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .alert-banner {
+            padding: 11px 15px;
+            border-radius: 4px;
+            margin-bottom: 14px;
+            font-size: 12.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .alert-warning { background: rgba(230, 157, 53, 0.15); border: 1px solid #e69d35; color: #f5b041; }
+        .alert-info { background: rgba(52, 152, 219, 0.15); border: 1px solid #3498db; color: #5dade2; }
+
+        footer {
+            background: #111317;
+            border-top: 1px solid var(--border-color);
+            padding: 20px 30px;
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        @media (max-width: 960px) {
+            .members-directory-layout { grid-template-columns: 1fr; }
+            .leaderboards-3col { grid-template-columns: 1fr; }
+            .dm-layout { grid-template-columns: 1fr; }
+            .node-last-post, .node-stats { display: none; }
+            .thread-time { display: none; }
+            .post-card { grid-template-columns: 1fr; }
+            .post-title-row, .meta-grid-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ÜST HEADER -->
+    <header class="top-header" id="mainHeaderBar">
+        <div class="header-top-bar">
+            <div class="brand-slogan" id="headerSlogan">Anarky Underground Network</div>
+            <div class="header-right-tools">
+                <div class="social-icons">
+                    <a href="#social/twitter" title="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#social/discord" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="#social/telegram" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="#social/github" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="globalSearchInput" placeholder="Search threads, sections & users..." onkeyup="handleGlobalSearch(event)">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yüklenen özel logo varsa burada gösterilir -->
+        <div class="center-logo-area" id="centerLogoArea">
+            <a href="#home" id="logoContainer"></a>
+        </div>
+    </header>
+
+    <!-- NAVİGASYON BAR -->
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="#home" data-nav="home"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="#whats-new" data-nav="whats-new"><i class="fa-solid fa-bolt"></i> What's new</a></li>
+            <li><a href="#members" data-nav="members"><i class="fa-solid fa-users"></i> Members</a></li>
+            <li><a href="#awards" data-nav="awards"><i class="fa-solid fa-award"></i> Awards</a></li>
+            <li><a href="#premium" data-nav="premium"><i class="fa-solid fa-gem"></i> Premium</a></li>
+            <li><a href="#advertising" data-nav="advertising"><i class="fa-solid fa-bullhorn"></i> Advertising</a></li>
+            <li><a href="#forum/verified-sellers" data-nav="verified"><i class="fa-solid fa-circle-check"></i> Verified Sellers</a></li>
+        </ul>
+
+        <div class="nav-user-menu" id="navUserArea"></div>
+    </nav>
+
+    <!-- ANA İÇERİK -->
+    <main class="container" id="appRoot"></main>
+
+    <!-- GİRİŞ / KAYIT MODALI -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="authModalTitle">Login</h3>
+                <button class="btn btn-dark btn-sm" onclick="closeModal('authModal')">×</button>
+            </div>
+            <div id="authModalBody"></div>
+        </div>
+    </div>
+
+    <!-- DÜZENLEME MODALI -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="editModalTitle">Edit</h3>
+                <button class="btn btn-dark btn-sm" onclick="closeModal('editModal')">×</button>
+            </div>
+            <div id="editModalBody"></div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div>© 2026 <strong id="footerSiteName">Anarky Forum</strong>. All rights reserved.</div>
+        <div style="display:flex; gap:14px;">
+            <a href="#home">Home</a>
+            <a href="#whats-new">What's New</a>
+            <a href="#members">Members</a>
+            <a href="#premium">Premium</a>
+            <a href="#advertising">Advertising</a>
+        </div>
+    </footer>
+
+    <script>
+        /* ==========================================================================
+           1. BAŞLANGIÇ VERİLERİ & ÖZEL GRAFİK ROZET TANIMLARI
+           ========================================================================== */
+        const GRAPHIC_BADGES = {
+            founder: { label: "FOUNDER", cls: "grb-founder", icon: "fa-dragon" },
+            legendary: { label: "LEGENDARY MEMBER", cls: "grb-legendary", icon: "fa-feather-pointed" },
+            expert: { label: "PROFESSIONAL SPECIALIST", cls: "grb-expert", icon: "fa-user-secret" },
+            topvip: { label: "TOP VIP MEMBER", cls: "grb-topvip", icon: "fa-crown" },
+            verified: { label: "VERIFIED SELLER", cls: "grb-verified", icon: "fa-circle-check" }
+        };
+
+        function renderGraphicBadgeHtml(badgeKey) {
+            if (!badgeKey || !GRAPHIC_BADGES[badgeKey]) return "";
+            const b = GRAPHIC_BADGES[badgeKey];
+            return `<div class="graphic-rank-banner ${b.cls}"><i class="fa-solid ${b.icon}"></i> <span>${b.label}</span></div>`;
+        }
+
+        const INITIAL_TOP_THREADS = [
+            { id: "seed-1", prefix: "", prefixClass: "", title: "Free CC (Credit Cards) Sample Lab & Guides 2026", time: "A moment ago", author: "popfizz", role: "user-default", pinned: false, content: "Welcome to the 2026 lab guide thread. Discuss security concepts, BIN structures, and testing methodologies here." },
+            { id: "seed-2", prefix: "", prefixClass: "", title: "Cinas World Leaks — 2026 Archive [cinas_worldxox]", time: "A moment ago", author: "arlan363", role: "user-default", pinned: false, content: "Archive index and community discussion thread for Cinas World 2026 resources." },
+            { id: "seed-3", prefix: "VPNS", prefixClass: "prefix-blue", title: "HMA VPN PREMIUM KEY & CONFIG LIST", time: "1 minute ago", author: "DivaY15", role: "user-default", pinned: false, content: "VPN configuration notes, protocol comparisons, and community feedback." },
+            { id: "seed-4", prefix: "", prefixClass: "", title: "Low MC & Gaming Accounts Bundle", time: "1 minute ago", author: "lazyorio99", role: "user-default", pinned: false, content: "Gaming account discussion and bundle details thread." },
+            { id: "seed-5", prefix: "", prefixClass: "", title: "[9.4K] ⚡ Hotmail ⚡ Valid Mail Access 23.11", time: "1 minute ago", author: "redcloud", role: "user-admin", pinned: false, content: "Mail access notes and checker discussions thread." },
+            { id: "seed-6", prefix: "", prefixClass: "", title: "Utsuri Creators Leaks 2026 [i.v.mono, Koi, utsuri.mono]", time: "2 minutes ago", author: "hugh511", role: "user-default", pinned: false, content: "Creator archive discussion and mirror links thread." },
+            { id: "seed-7", prefix: "CreditCard", prefixClass: "prefix-green", title: "%100 LIVE CC TESTER & BIN CHECKER 21.11.2026", time: "3 minutes ago", author: "visaxr55", role: "user-default", pinned: false, content: "BIN validation notes and testing tool discussion." },
+            { id: "seed-8", prefix: "", prefixClass: "", title: "⭐ [MEGA.NZ] ⭐ HUGE CREATOR & MEDIA ARCHIVE | VIDS | PACKS", time: "3 minutes ago", author: "SemiPro", role: "user-vip", pinned: false, content: "Large media & pack index thread. Share feedback and replies below." },
+            { id: "seed-9", prefix: "", prefixClass: "", title: "12GB URL:LOGIN:PASS lines | From Logs", time: "3 minutes ago", author: "WhiteMelly", role: "user-default", pinned: false, content: "Combo & log dataset discussion thread." },
+            { id: "seed-10", prefix: "", prefixClass: "", title: "⚡ BOLTFN CHECKER ⚡ FORTNITE/HOTMAIL CHECKER ⚡ HIGH CPM ⚡", time: "4 minutes ago", author: "jijer37512", role: "user-default", pinned: false, content: "Checker performance benchmarks and config tips." },
+            { id: "seed-11", prefix: "", prefixClass: "", title: "[MEGA 18+] SKYLAR MCCUE SNAPCHAT ARCHIVE LEAKED | CONTENT", time: "4 minutes ago", author: "CyberCaliphate", role: "user-pro", pinned: false, content: "Archive discussion thread." },
+            { id: "seed-12", prefix: "", prefixClass: "", title: "HOMEMADE PACK COLLECTION | HM955", time: "4 minutes ago", author: "Blackber64", role: "user-default", pinned: false, content: "Collection thread HM955." },
+            { id: "seed-13", prefix: "", prefixClass: "", title: "🔥 MEGA Collection Video Pack 20729", time: "4 minutes ago", author: "professor66", role: "user-default", pinned: false, content: "Video collection thread 20729." },
+            { id: "seed-14", prefix: "Verified Seller", prefixClass: "prefix-gold", title: "PayPal Transfers - ATN VERIFIED - ESCROW ACCEPTED (Instant Service)", time: "4 minutes ago", author: "rileyman0000", role: "user-vip", pinned: true, content: "Verified Seller pinned service thread. Always use escrow and verify seller details." },
+            { id: "seed-15", prefix: "", prefixClass: "", title: "💎 [MEGA] NEW! RANDOM REAL TEENS VIDS PACK - RRTVP056 | LEAKS 💎", time: "5 minutes ago", author: "cezababa3131", role: "user-vip", pinned: false, content: "Pack RRTVP056 discussion thread." }
+        ];
+
+        const INITIAL_CATEGORIES = [
+            {
+                id: "cat-home",
+                title: "Home",
+                forums: [
+                    { id: "announcements", title: "Announcements", desc: "Get the scoop on what is happening at Anarky Forum.", icon: "fa-bullhorn", subs: [] },
+                    { id: "feedback", title: "Comments & FeedBacks", desc: "Give comments and feedback about Anarky Forum. Suggest for new stuff like sections, usergroups etc.", icon: "fa-comment-dots", subs: [] },
+                    { id: "applications", title: "Applications Rank/Award", desc: "Apply for Ranks or Awards in this section.", icon: "fa-user-shield", subs: ["Staff Application", "Ranks Application", "Award Request", "Apply for Verified Sellers"] },
+                    { id: "support", title: "Technical Support", desc: "Bugs, problems & related", icon: "fa-life-ring", subs: [] }
+                ]
+            },
+            {
+                id: "cat-community",
+                title: "Community",
+                forums: [
+                    { id: "general", title: "General Discussion", desc: "Talk about whatever you want here, try not to spam.", icon: "fa-comments", subs: [] },
+                    { id: "hello-world", title: "Hello World!", desc: "New members post 1 introduction here first; Admin approves before posting in other sections.", icon: "fa-hand-peace", subs: [], isHelloWorld: true },
+                    { id: "international", title: "International - No English", desc: "Speak your language here.", icon: "fa-globe", subs: [] },
+                    { id: "tech-news", title: "Technology & Finance News", desc: "Latest business and technology news covering companies, advancements, electronics and science.", icon: "fa-newspaper", subs: [] },
+                    { id: "comedy", title: "Comedy", desc: "Jokes and satirical sketches to make the audience laugh.", icon: "fa-face-laugh-squint", subs: [] }
+                ]
+            },
+            {
+                id: "cat-verified",
+                title: "Verified Sellers",
+                forums: [
+                    { id: "verified-sellers", title: "Verified Sellers Marketplace", desc: "Only Admin-approved Verified Sellers can post threads here.", icon: "fa-circle-check", subs: ["Escrow Services", "Verified Digital Goods", "Trusted Resellers"], isVerifiedOnly: true }
+                ]
+            },
+            {
+                id: "cat-media-hub",
+                title: "Media & Creators Section",
+                forums: [
+                    { id: "media-packs", title: "Images & Videos & Creator Accounts", desc: "Share creator collections, media packs, and community showcases.", icon: "fa-photo-film", subs: ["Creator Accounts", "Video Collections", "Photo Galleries", "Requests"] },
+                    { id: "streaming-apps", title: "Video Sharing & Streaming Hub", desc: "Discussions and collections around streaming platforms and live apps.", icon: "fa-clapperboard", subs: ["Live Streams", "Short Video Apps", "Media Mirrors"] }
+                ]
+            },
+            {
+                id: "cat-vip",
+                title: "Anarky VIP Section",
+                forums: [
+                    { id: "fresh-dumps", title: "Fresh Dumps", desc: "Exclusive VIP releases, private accounts and resources.", icon: "fa-credit-card", subs: [], isVip: true },
+                    { id: "private-media", title: "Private Media Leaked for VIPS", desc: "Private VIP media collections.", icon: "fa-comments", subs: [], isVip: true },
+                    { id: "private-combos", title: "Private Combolist and Configs", desc: "Fresh Combolist and Configs for VIP.", icon: "fa-list-ul", subs: [], isVip: true },
+                    { id: "vip-only", title: "VIP Discussions Only", desc: "Private VIP lounge.", icon: "fa-star", subs: [], isVip: true }
+                ]
+            },
+            {
+                id: "cat-cyber",
+                title: "Hacking & Cracking Zone",
+                forums: [
+                    { id: "hacking", title: "Hacking", desc: "Security tools, pentesting, hash analysis and tutorials.", icon: "fa-terminal", subs: ["Hacking Tools", "Video Tutorials", "Hash Cracking", "Brute | Checker | Parser", "Pentesting", "Free Ebook Hacking"] },
+                    { id: "hacking-showoff", title: "Hacking Showoff", desc: "Share security audits, SQL dorks, keywords and research.", icon: "fa-comments", subs: ["Website Hacking, SQL, Dorks"] },
+                    { id: "cracking-tools", title: "Cracking Tools", desc: "Tools related to cracking and automation go here.", icon: "fa-wrench", subs: [] },
+                    { id: "combos-configs", title: "Combolists and Configs", desc: "Find combolists and configs for testing tools.", icon: "fa-list", subs: ["Openbullet Config Request"] }
+                ]
+            },
+            {
+                id: "cat-dev",
+                title: "DEVELOPMENT OF",
+                forums: [
+                    { id: "programming", title: "PROGRAMMING", desc: "Programming languages, frameworks and software development.", icon: "fa-code", subs: ["Python", "HTML and PHP", "C / C++, C#, Delphi, .NET, Asm", "PHP, PERL", "CSS, Git, Angular, React", "MySQL, JavaScript", "Android Development"] },
+                    { id: "web-dev", title: "WEB Development Discussions", desc: "HTML, WML, CSS, MySQL, PHP, ASP, CGI, JavaScript discussions and help.", icon: "fa-code-branch", subs: [] }
+                ]
+            },
+            {
+                id: "cat-gaming",
+                title: "Gaming Zone",
+                forums: [
+                    { id: "general-games", title: "General Games Discussion", desc: "Talk about whatever you want about games here.", icon: "fa-gamepad", subs: [] },
+                    { id: "trading-games", title: "Trading Games", desc: "Trade any game in this section.", icon: "fa-right-left", subs: [] },
+                    { id: "csgo", title: "CS:GO {Counter-Strike}", desc: "Everything about CS:GO / CS2 can be found here.", icon: "fa-crosshairs", subs: [] },
+                    { id: "pubg", title: "PUBG (PlayerUnknown's Battlegrounds)", desc: "Everything about PUBG can be found here.", icon: "fa-gamepad", subs: [] }
+                ]
+            }
+        ];
+
+        const INITIAL_USERS = [
+            { id: "u-admin", username: "admin", password: "admin", email: "admin@anarky.local", role: "admin", styleClass: "role-admin", graphicBadge: "founder", isVip: true, approved: true, verifiedSeller: true, helloPosted: true, bio: "Founder & Big Boss at Anarky Forum.", messagesCount: 14820, threadsCount: 0, reactionsCount: 52478, pointsCount: 125535, awardsCount: 44, birthdayToday: false, avatarColor: "#d92638", avatarUrl: "", bannerUrl: "" },
+            { id: "u-callienix", username: "callienix13", password: "123", email: "calli@anarky.local", role: "member", styleClass: "role-legendary", graphicBadge: "legendary", isVip: true, approved: true, verifiedSeller: true, helloPosted: true, bio: "Legendary Member & Verified Specialist.", messagesCount: 33989, threadsCount: 0, reactionsCount: 9309, pointsCount: 113, awardsCount: 14, birthdayToday: false, avatarColor: "#8c8856", avatarUrl: "", bannerUrl: "" },
+            { id: "u-demon", username: "DemonCarderX321", password: "123", email: "demon@anarky.local", role: "member", styleClass: "role-vip", graphicBadge: "topvip", isVip: true, approved: true, verifiedSeller: false, helloPosted: true, bio: "Top Specialist & VIP Contributor.", messagesCount: 2884, threadsCount: 0, reactionsCount: 1113, pointsCount: 113, awardsCount: 6, birthdayToday: false, avatarColor: "#d63384", avatarUrl: "", bannerUrl: "" },
+            { id: "u-verifox", username: "VeriFox", password: "123", email: "verifox@anarky.local", role: "member", styleClass: "role-verified", graphicBadge: "verified", isVip: false, approved: true, verifiedSeller: true, helloPosted: true, bio: "Official Verified Seller & Escrow Vendor.", messagesCount: 234, threadsCount: 0, reactionsCount: 533, pointsCount: 16, awardsCount: 5, birthdayToday: false, avatarColor: "#27ae60", avatarUrl: "", bannerUrl: "" },
+            { id: "u-chrollo", username: "Chrollo Lucilfer", password: "123", email: "chrollo@anarky.local", role: "member", styleClass: "role-mod", graphicBadge: "expert", isVip: true, approved: true, verifiedSeller: false, helloPosted: true, bio: "Security & Automation Specialist.", messagesCount: 4332, threadsCount: 0, reactionsCount: 18848, pointsCount: 113, awardsCount: 12, birthdayToday: true, avatarColor: "#7e22ce", avatarUrl: "", bannerUrl: "" }
+        ];
+
+        function loadDB() {
+            const fallback = {
+                settings: {
+                    siteName: "ANARKY FORUM",
+                    subtitle: "FORUMS",
+                    slogan: "Anarky Underground Network",
+                    logoDataUrl: "",
+                    faviconDataUrl: "",
+                    bgDataUrl: "",
+                    telegramUrl: "https://t.me/anarkyforum_vip"
+                },
+                gifAds: [
+                    {
+                        id: "gif-1",
+                        title: "Official Instagram & Sponsor Promotion",
+                        gifUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG5tZ3F2bTZ3eGhqdmt6bG5iZ2J6bG5iZ2J6bG5iZ2J6bG5i/26uf2YTg50v7okZ1u/giphy.gif",
+                        linkUrl: "https://instagram.com",
+                        active: true
+                    }
+                ],
+                users: INITIAL_USERS,
+                currentUserId: null,
+                adminAuthenticated: false,
+                categories: INITIAL_CATEGORIES,
+                topThreads: INITIAL_TOP_THREADS,
+                userThreads: [],
+                notifications: [
+                    { id: "n-1", text: "Welcome to Anarky Forum! Click to mark notification as read.", link: "#home", unread: true, time: "Just now" }
+                ],
+                dmThreads: [
+                    {
+                        id: "dm-1",
+                        participants: ["admin", "VeriFox"],
+                        messages: [{ sender: "VeriFox", text: "Hello Admin, Verified Seller marketplace is live!", time: "Today" }]
+                    }
+                ]
+            };
+
+            try {
+                const raw = localStorage.getItem("anarky_forum_v7");
+                if (!raw) {
+                    localStorage.setItem("anarky_forum_v7", JSON.stringify(fallback));
+                    return fallback;
+                }
+                const parsed = JSON.parse(raw);
+                if (!Array.isArray(parsed.topThreads) || parsed.topThreads.length === 0) parsed.topThreads = INITIAL_TOP_THREADS;
+                if (!Array.isArray(parsed.categories) || parsed.categories.length === 0) parsed.categories = INITIAL_CATEGORIES;
+                if (!Array.isArray(parsed.gifAds)) parsed.gifAds = fallback.gifAds;
+                if (!Array.isArray(parsed.notifications)) parsed.notifications = fallback.notifications;
+                if (!Array.isArray(parsed.dmThreads)) parsed.dmThreads = fallback.dmThreads;
+                return parsed;
+            } catch (err) {
+                return fallback;
+            }
+        }
+
+        let DB = loadDB();
+        let activeStatsTab = "latest";
+        let activeMembersSection = "overview";
+        let activeDmPartner = null;
+        let composerTabMode = "discussion";
+
+        function saveDB() {
+            localStorage.setItem("anarky_forum_v7", JSON.stringify(DB));
+            applyAppearance();
+        }
+
+        function getCurrentUser() {
+            if (!DB.currentUserId) return null;
+            return DB.users.find(u => u.id === DB.currentUserId) || null;
+        }
+
+        function isAdminMode() {
+            const u = getCurrentUser();
+            return (u && u.role === "admin") || DB.adminAuthenticated === true;
+        }
+
+        function pushNotification(text, link = "#home") {
+            DB.notifications.unshift({
+                id: "notif-" + Date.now() + "-" + Math.random().toString(36).slice(2, 6),
+                text,
+                link,
+                unread: true,
+                time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+            });
+            saveDB();
+        }
+
+        /* ==========================================================================
+           2. GÖRÜNÜM, NAVBAR, DM & BİLDİRİM SİSTEMİ
+           ========================================================================== */
+        function applyAppearance() {
+            const s = DB.settings;
+            document.title = `${s.siteName} | ${s.subtitle}`;
+            document.getElementById("headerSlogan").textContent = s.slogan;
+            document.getElementById("footerSiteName").textContent = s.siteName;
+
+            const headerBar = document.getElementById("mainHeaderBar");
+            const centerLogo = document.getElementById("centerLogoArea");
+            const logoContainer = document.getElementById("logoContainer");
+
+            if (s.logoDataUrl) {
+                headerBar.classList.add("has-custom-logo");
+                centerLogo.classList.add("visible");
+                logoContainer.innerHTML = `<img src="${escapeHtml(s.logoDataUrl)}" alt="Logo" class="custom-logo-img">`;
+            } else {
+                headerBar.classList.remove("has-custom-logo");
+                centerLogo.classList.remove("visible");
+                logoContainer.innerHTML = "";
+            }
+
+            if (s.faviconDataUrl) document.getElementById("dynamicFavicon").href = s.faviconDataUrl;
+
+            if (s.bgDataUrl) {
+                document.documentElement.style.setProperty("--custom-bg-image", `url("${s.bgDataUrl}")`);
+            } else {
+                document.documentElement.style.setProperty("--custom-bg-image", "none");
+            }
+
+            renderNavbarUser();
+        }
+
+        function renderNavbarUser() {
+            const area = document.getElementById("navUserArea");
+            const user = getCurrentUser();
+            const unreadCount = DB.notifications.filter(n => n.unread).length;
+
+            const notifDropdownHtml = `
+                <div class="notif-dropdown" id="notifDropdown">
+                    <div class="notif-header">
+                        <span>Notifications (${unreadCount} unread)</span>
+                        <button class="btn btn-dark btn-sm" onclick="markAllRead(event)">Mark all read</button>
+                    </div>
+                    <div style="max-height:260px; overflow-y:auto;">
+                        ${DB.notifications.map(n => `
+                            <div class="notif-item ${n.unread ? 'unread' : ''}" onclick="openNotificationItem('${n.id}', '${escapeHtml(n.link)}')">
+                                <div>${escapeHtml(n.text)}</div>
+                                <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${n.time}</div>
+                            </div>
+                        `).join("") || `<div class="notif-item">No notifications</div>`}
+                    </div>
+                </div>
+            `;
+
+            const bellAndDmHtml = `
+                <a href="#dm" class="icon-pill-btn" title="Direct Messages (DM)">
+                    <i class="fa-regular fa-envelope"></i>
+                </a>
+                <button class="icon-pill-btn" title="Notifications" onclick="toggleNotifDropdown(event)">
+                    <i class="fa-regular fa-bell"></i>
+                    ${unreadCount > 0 ? `<span class="count-badge">${unreadCount}</span>` : ""}
+                </button>
+                ${notifDropdownHtml}
+            `;
+
+            if (user) {
+                let badge = `<span class="badge badge-member">Member</span>`;
+                if (user.role === "admin") badge = `<span class="badge badge-admin">Admin</span>`;
+                else if (user.verifiedSeller) badge = `<span class="badge badge-verified"><i class="fa-solid fa-circle-check"></i> Verified Seller</span>`;
+                else if (user.isVip) badge = `<span class="badge badge-pending">VIP</span>`;
+                else if (!user.approved) badge = `<span class="badge badge-pending">Pending Approval</span>`;
+
+                const avatarHtml = user.avatarUrl
+                    ? `<img src="${escapeHtml(user.avatarUrl)}" alt="">`
+                    : escapeHtml(user.username.charAt(0).toUpperCase());
+
+                area.innerHTML = `
+                    <a href="#profile/${encodeURIComponent(user.username)}" style="display:flex; align-items:center; gap:6px; font-weight:600;">
+                        <span class="avatar-box" style="width:24px; height:24px; font-size:11px; background:${user.avatarColor || '#d92638'};">${avatarHtml}</span>
+                        <span class="${user.styleClass || 'role-member'}">${escapeHtml(user.username)}</span>
+                        ${badge}
+                    </a>
+                    ${bellAndDmHtml}
+                    <button class="btn btn-dark btn-sm" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
+                `;
+            } else {
+                area.innerHTML = `
+                    ${bellAndDmHtml}
+                    <button class="btn btn-dark btn-sm" onclick="openAuthModal('login')"><i class="fa-solid fa-right-to-bracket"></i> Log In</button>
+                    <button class="btn btn-red btn-sm" onclick="openAuthModal('register')"><i class="fa-solid fa-user-plus"></i> Register</button>
+                `;
+            }
+        }
+
+        function toggleNotifDropdown(ev) {
+            ev.stopPropagation();
+            const dd = document.getElementById("notifDropdown");
+            if (!dd) return;
+            dd.classList.toggle("open");
+        }
+
+        function openNotificationItem(notifId, link) {
+            const n = DB.notifications.find(x => x.id === notifId);
+            if (n) n.unread = false;
+            saveDB();
+            if (link && link.startsWith("#")) location.hash = link;
+        }
+
+        function markAllRead(ev) {
+            if (ev) ev.stopPropagation();
+            DB.notifications.forEach(n => n.unread = false);
+            saveDB();
+        }
+
+        document.addEventListener("click", () => {
+            document.getElementById("notifDropdown")?.classList.remove("open");
+        });
+
+        /* ==========================================================================
+           3. GİRİŞ & KAYIT MODALI
+           ========================================================================== */
+        function openAuthModal(mode) {
+            const title = document.getElementById("authModalTitle");
+            const body = document.getElementById("authModalBody");
+            if (mode === "login") {
+                title.textContent = "Log In";
+                body.innerHTML = `
+                    <div class="form-group"><label>Username</label><input type="text" id="loginUser" placeholder="Username"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="loginPass" placeholder="••••••"></div>
+                    <button class="btn btn-red" style="width:100%; justify-content:center;" onclick="submitLogin()">Log In</button>
+                `;
+            } else {
+                title.textContent = "Register";
+                body.innerHTML = `
+                    <div class="alert-banner alert-info" style="font-size:11.5px;">
+                        New members must post 1 introduction thread in <b>Hello World!</b> first and wait for Admin approval before posting in other sections.
+                    </div>
+                    <div class="form-group"><label>Username</label><input type="text" id="regUser"></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="regEmail"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="regPass"></div>
+                    <button class="btn btn-red" style="width:100%; justify-content:center;" onclick="submitRegister()">Register</button>
+                `;
+            }
+            document.getElementById("authModal").classList.add("active");
+        }
+
+        function closeModal(id) { document.getElementById(id).classList.remove("active"); }
+
+        function submitLogin() {
+            const u = document.getElementById("loginUser").value.trim();
+            const p = document.getElementById("loginPass").value.trim();
+            const found = DB.users.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
+            if (!found) { alert("Invalid username or password!"); return; }
+            DB.currentUserId = found.id;
+            if (found.role === "admin") DB.adminAuthenticated = true;
+            saveDB();
+            closeModal("authModal");
+            route();
+        }
+
+        function submitRegister() {
+            const u = document.getElementById("regUser").value.trim();
+            const e = document.getElementById("regEmail").value.trim();
+            const p = document.getElementById("regPass").value.trim();
+            if (!u || !p) { alert("Username and password are required."); return; }
+            if (DB.users.some(x => x.username.toLowerCase() === u.toLowerCase())) { alert("Username already exists."); return; }
+            const newUser = {
+                id: "u-" + Date.now(),
+                username: u,
+                password: p,
+                email: e || `${u}@anarky.local`,
+                role: "member",
+                styleClass: "role-member",
+                graphicBadge: "",
+                isVip: false,
+                approved: false,
+                verifiedSeller: false,
+                helloPosted: false,
+                bio: "New member of Anarky Forum.",
+                messagesCount: 0,
+                threadsCount: 0,
+                reactionsCount: 0,
+                pointsCount: 0,
+                awardsCount: 0,
+                birthdayToday: false,
+                avatarColor: "#2980b9",
+                avatarUrl: "",
+                bannerUrl: ""
+            };
+            DB.users.push(newUser);
+            DB.currentUserId = newUser.id;
+            pushNotification(`New member ${u} registered and needs Hello World! approval.`, "#admin");
+            saveDB();
+            closeModal("authModal");
+            location.hash = "#forum/hello-world";
+        }
+
+        function logoutUser() {
+            DB.currentUserId = null;
+            DB.adminAuthenticated = false;
+            saveDB();
+            route();
+        }
+
+        /* ==========================================================================
+           4. ROUTER
+           ========================================================================== */
+        window.addEventListener("hashchange", route);
+
+        function findForumById(fid) {
+            for (const cat of DB.categories) {
+                for (const f of cat.forums) {
+                    if (f.id === fid) return { forum: f, category: cat };
+                }
+            }
+            return null;
+        }
+
+        function route() {
+            const hash = location.hash || "#home";
+            const root = document.getElementById("appRoot");
+
+            document.querySelectorAll(".nav-links a").forEach(a => a.classList.remove("active"));
+            if (hash === "#home") document.querySelector('[data-nav="home"]')?.classList.add("active");
+            else if (hash === "#whats-new") document.querySelector('[data-nav="whats-new"]')?.classList.add("active");
+            else if (hash === "#members") document.querySelector('[data-nav="members"]')?.classList.add("active");
+            else if (hash === "#awards") document.querySelector('[data-nav="awards"]')?.classList.add("active");
+            else if (hash === "#premium") document.querySelector('[data-nav="premium"]')?.classList.add("active");
+            else if (hash === "#advertising") document.querySelector('[data-nav="advertising"]')?.classList.add("active");
+            else if (hash === "#forum/verified-sellers") document.querySelector('[data-nav="verified"]')?.classList.add("active");
+
+            if (hash === "#home") renderHomePage(root);
+            else if (hash === "#admin") renderAdminPage(root);
+            else if (hash === "#members") renderMembersDirectoryPage(root);
+            else if (hash === "#dm") renderDmPage(root);
+            else if (hash === "#whats-new") renderWhatsNewPage(root);
+            else if (hash === "#awards") renderAwardsPage(root);
+            else if (hash === "#premium") renderPremiumPage(root);
+            else if (hash === "#advertising") renderAdvertisingPage(root);
+            else if (hash.startsWith("#forum/")) renderForumPage(root, hash.replace("#forum/", ""));
+            else if (hash.startsWith("#thread/")) renderThreadDetailPage(root, hash.replace("#thread/", ""));
+            else if (hash.startsWith("#profile/")) renderProfilePage(root, decodeURIComponent(hash.replace("#profile/", "")));
+            else if (hash.startsWith("#social/")) renderSocialPage(root, hash.replace("#social/", ""));
+            else renderHomePage(root);
+        }
+
+        /* ==========================================================================
+           5. ANA SAYFA (TAM GENİŞLİK GIF REKLAMLAR + TIKLANABİLİR 1-15 KONULAR + KATEGORİLER)
+           ========================================================================== */
+        function getActiveGifAds() {
+            return DB.gifAds.filter(g => g.active && g.gifUrl);
+        }
+
+        function formatExternalUrl(url) {
+            if (!url) return "#advertising";
+            if (url.startsWith("#") || url.startsWith("http://") || url.startsWith("https://")) return url;
+            return "https://" + url;
+        }
+
+        function renderHomePage(root) {
+            const admin = isAdminMode();
+            const user = getCurrentUser();
+            const activeGifs = getActiveGifAds();
+
+            let gifAreaHtml = "";
+            if (activeGifs.length > 0) {
+                const countCls = activeGifs.length === 1 ? "count-1" : activeGifs.length === 2 ? "count-2" : "count-3plus";
+                gifAreaHtml = `
+                    <div class="gif-gallery-grid ${countCls}">
+                        ${activeGifs.map(g => {
+                            const href = formatExternalUrl(g.linkUrl);
+                            const isExt = href.startsWith("http");
+                            return `
+                                <div class="gif-ad-card">
+                                    <a href="${escapeHtml(href)}" ${isExt ? 'target="_blank" rel="noopener noreferrer"' : ''} class="gif-clickable" title="${escapeHtml(g.title)}">
+                                        <img src="${escapeHtml(g.gifUrl)}" alt="${escapeHtml(g.title)}">
+                                    </a>
+                                    <div class="gif-ad-meta">
+                                        <span><span class="badge badge-admin" style="padding:1px 5px; font-size:9px;">AD</span> ${escapeHtml(g.title)}</span>
+                                        <a href="${escapeHtml(href)}" ${isExt ? 'target="_blank" rel="noopener noreferrer"' : ''} style="color:#5dade2;">Visit Link <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:9px;"></i></a>
+                                    </div>
+                                </div>
+                            `;
+                        }).join("")}
+                    </div>
+                `;
+            } else {
+                gifAreaHtml = `
+                    <div style="padding:14px;">
+                        <h3 style="margin-bottom:6px;">${escapeHtml(DB.settings.siteName)} — Animated GIF Banner Area</h3>
+                        <a href="#advertising" class="btn btn-green btn-sm">Advertise With Animated GIF</a>
+                    </div>
+                `;
+            }
+
+            let topAlert = "";
+            if (admin) {
+                topAlert = `
+                    <div class="alert-banner alert-info">
+                        <span><i class="fa-solid fa-shield-halved"></i> <b>Admin Mode Active:</b> Edit categories, forums, sub-forums, or threads.</span>
+                        <a href="#admin" class="btn btn-red btn-sm"><i class="fa-solid fa-sliders"></i> Control Panel</a>
+                    </div>
+                `;
+            } else if (user && !user.approved) {
+                topAlert = `
+                    <div class="alert-banner alert-warning">
+                        <span><i class="fa-solid fa-triangle-exclamation"></i> ${user.helloPosted ? "You already posted your 'Hello World!' thread. Waiting for Admin approval." : "New members must post 1 introduction in 'Hello World!' first and get Admin approval."}</span>
+                        <a href="#forum/hello-world" class="btn btn-orange btn-sm">Go to Hello World!</a>
+                    </div>
+                `;
+            }
+
+            let html = topAlert + `
+                <section class="top-full-banner-wrapper">
+                    <div class="main-banner-slot">${gifAreaHtml}</div>
+                </section>
+
+                <div class="forum-header-bar">
+                    <h1 class="forum-main-title">${escapeHtml(DB.settings.siteName)} | Elite Underground Tech Forum & Digital Resource Hub</h1>
+                    <div class="forum-actions">
+                        <a href="#whats-new" class="btn btn-red"><i class="fa-solid fa-bolt"></i> New posts</a>
+                        <a href="#forum/general" class="btn btn-orange"><i class="fa-regular fa-pen-to-square"></i> Post thread...</a>
+                    </div>
+                </div>
+
+                <section class="stats-widget">
+                    <div class="stats-tabs-header">
+                        <ul class="tabs-list">
+                            <li class="tab-item active" onclick="switchStatsTab(this, 'latest')">Latest threads</li>
+                            <li class="tab-item" onclick="switchStatsTab(this, 'viewed')">Most viewed</li>
+                            <li class="tab-item" onclick="switchStatsTab(this, 'replied')">Most replied</li>
+                            <li class="tab-item" onclick="switchStatsTab(this, 'members')">Latest members</li>
+                        </ul>
+                        <div style="padding:5px; color:var(--text-muted); cursor:pointer;" onclick="renderStatsList(activeStatsTab)"><i class="fa-solid fa-rotate-right"></i></div>
+                    </div>
+                    <div class="thread-list" id="statsThreadList"></div>
+                </section>
+            `;
+
+            DB.categories.forEach(cat => {
+                const catEditBtn = admin
+                    ? `<button class="btn btn-dark btn-sm" onclick="openEditCategoryModal('${cat.id}')"><i class="fa-solid fa-pen"></i> Edit</button>`
+                    : "";
+
+                html += `
+                    <section class="category-block">
+                        <div class="category-header">
+                            <h2>${escapeHtml(cat.title)} ${catEditBtn}</h2>
+                            <button class="btn btn-dark btn-sm" onclick="toggleCatBody(this)">-</button>
+                        </div>
+                        <div class="category-body">
+                `;
+
+                cat.forums.forEach(f => {
+                    const fThreads = DB.userThreads.filter(th => th.forumId === f.id);
+                    const fMsgs = fThreads.reduce((acc, th) => acc + th.posts.length, 0);
+                    const lastTh = fThreads[0];
+
+                    let subsHtml = "";
+                    if ((f.subs && f.subs.length > 0) || admin) {
+                        const subItems = (f.subs || []).map((s, sIdx) => `
+                            <div class="subforum-item-wrap">
+                                <a href="#forum/${f.id}" class="subforum-link"><i class="fa-regular fa-comments"></i> ${escapeHtml(s)}</a>
+                                ${admin ? `<button class="btn btn-dark btn-sm" style="padding:1px 5px; font-size:9px;" onclick="editSubforum('${f.id}', ${sIdx})" title="Edit Sub-forum"><i class="fa-solid fa-pen"></i></button>` : ""}
+                            </div>
+                        `).join("");
+
+                        const addSubBtn = admin
+                            ? `<div><button class="btn btn-dark btn-sm" style="padding:2px 7px; font-size:10px;" onclick="addSubforum('${f.id}')">+ Add Sub-forum</button></div>`
+                            : "";
+
+                        subsHtml = `<div class="subforums-grid">${subItems}${addSubBtn}</div>`;
+                    }
+
+                    const forumBadges = `
+                        ${f.isHelloWorld ? `<span class="badge badge-pending">Intro Required</span>` : ""}
+                        ${f.isVerifiedOnly ? `<span class="badge badge-verified"><i class="fa-solid fa-circle-check"></i> Verified Sellers Only</span>` : ""}
+                        ${f.isVip ? `<span class="badge badge-admin">VIP Only</span>` : ""}
+                    `;
+
+                    const editForumBtn = admin
+                        ? `<button class="btn btn-dark btn-sm" onclick="openEditForumModal('${cat.id}', '${f.id}')"><i class="fa-solid fa-pen"></i> Edit</button>`
+                        : "";
+
+                    const rightPanelHtml = f.isVip
+                        ? `<div class="node-last-post" style="border:none; text-align:right;"><a href="#forum/${f.id}" style="color:#ffd32a; font-weight:700;"><i class="fa-solid fa-crown"></i> VIP Access</a></div>`
+                        : `
+                            <div class="node-stats">
+                                <div class="stat-box"><span class="stat-label">Threads</span><span class="stat-value">${fThreads.length}</span></div>
+                                <div class="stat-box"><span class="stat-label">Messages</span><span class="stat-value">${fMsgs}</span></div>
+                            </div>
+                            <div class="node-last-post">
+                                ${lastTh ? `<a href="#thread/${encodeURIComponent(lastTh.id)}">${escapeHtml(lastTh.title)}</a><span>${lastTh.date} • <a href="#profile/${encodeURIComponent(lastTh.authorName)}" style="display:inline;">${escapeHtml(lastTh.authorName)}</a></span>` : `<span>No threads yet</span>`}
+                            </div>
+                        `;
+
+                    html += `
+                        <div class="node-row">
+                            <div class="node-main">
+                                <div class="node-icon"><i class="fa-solid ${f.icon}"></i></div>
+                                <div style="flex:1;">
+                                    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                        <a href="#forum/${f.id}" class="node-title">${escapeHtml(f.title)}</a>
+                                        ${forumBadges}
+                                        ${editForumBtn}
+                                    </div>
+                                    <p class="node-desc">${escapeHtml(f.desc)}</p>
+                                    ${subsHtml}
+                                </div>
+                            </div>
+                            <div class="node-right-panel">${rightPanelHtml}</div>
+                        </div>
+                    `;
+                });
+
+                html += `</div></section>`;
+            });
+
+            root.innerHTML = html;
+            renderStatsList(activeStatsTab);
+        }
+
+        function toggleCatBody(btn) {
+            const body = btn.closest(".category-block").querySelector(".category-body");
+            body.classList.toggle("collapsed");
+            btn.textContent = body.classList.contains("collapsed") ? "+" : "-";
+        }
+
+        function switchStatsTab(el, tabKey) {
+            activeStatsTab = tabKey;
+            document.querySelectorAll(".tab-item").forEach(x => x.classList.remove("active"));
+            el.classList.add("active");
+            renderStatsList(tabKey);
+        }
+
+        function renderStatsList(tabKey) {
+            const container = document.getElementById("statsThreadList");
+            if (!container) return;
+            const admin = isAdminMode();
+
+            if (tabKey === "members") {
+                container.innerHTML = DB.users.map((u, i) => `
+                    <div class="thread-row">
+                        <div class="thread-left">
+                            <span class="rank-badge ${i === 0 ? 'top-1' : ''}">${i + 1}</span>
+                            <a href="#profile/${encodeURIComponent(u.username)}" class="thread-title ${u.styleClass || 'role-member'}">${escapeHtml(u.username)}</a>
+                            ${u.verifiedSeller ? `<span class="badge badge-verified">Verified Seller</span>` : ""}
+                            ${u.isVip ? `<span class="badge badge-pending">VIP</span>` : ""}
+                        </div>
+                        <div class="thread-right">
+                            <span class="thread-time">Member</span>
+                            <a href="#profile/${encodeURIComponent(u.username)}" class="thread-author ${u.styleClass || 'role-member'}">${escapeHtml(u.username)}</a>
+                        </div>
+                    </div>
+                `).join("");
+                return;
+            }
+
+            const userAddedMapped = DB.userThreads.map(th => ({
+                id: th.id,
+                isRealUserThread: true,
+                prefix: th.prefix || "NEW",
+                prefixClass: th.prefixClass || "prefix-blue",
+                title: th.title,
+                time: th.date,
+                author: th.authorName,
+                role: "user-vip",
+                pinned: false
+            }));
+
+            let combined = [...userAddedMapped, ...DB.topThreads];
+            if (tabKey === "viewed") combined = [...combined].reverse();
+            if (tabKey === "replied") combined = combined.filter((_, idx) => idx % 2 === 0 || idx < 5);
+
+            container.innerHTML = combined.slice(0, 15).map((item, index) => {
+                const rank = index + 1;
+                let rankCls = "";
+                if (rank === 1) rankCls = "top-1";
+                else if (rank === 2) rankCls = "top-2";
+                else if (rank === 3) rankCls = "top-3";
+
+                const prefixHtml = item.prefix ? `<span class="prefix ${item.prefixClass}">${escapeHtml(item.prefix)}</span>` : "";
+                const pinCls = item.pinned ? "thread-row pinned-highlight" : "thread-row";
+                const targetHref = `#thread/${encodeURIComponent(item.id)}`;
+
+                const adminTools = admin ? `
+                    <button class="btn btn-dark btn-sm" onclick="${item.isRealUserThread ? `openEditUserThreadModal('${item.id}')` : `editTopThread('${item.id}')`}"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn btn-red btn-sm" onclick="${item.isRealUserThread ? `deleteUserThread('${item.id}')` : `deleteTopThread('${item.id}')`}"><i class="fa-solid fa-trash"></i></button>
+                ` : "";
+
+                return `
+                    <div class="${pinCls}">
+                        <div class="thread-left">
+                            <span class="rank-badge ${rankCls}">${rank}</span>
+                            ${prefixHtml}
+                            <a href="${targetHref}" class="thread-title">${escapeHtml(item.title)}</a>
+                        </div>
+                        <div class="thread-right">
+                            <span class="thread-time">${escapeHtml(item.time)}</span>
+                            <a href="#profile/${encodeURIComponent(item.author)}" class="thread-author ${item.role}">${escapeHtml(item.author)}</a>
+                            ${adminTools}
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function editTopThread(id) {
+            const item = DB.topThreads.find(x => x.id === id);
+            if (!item) return;
+            document.getElementById("editModalTitle").textContent = "Edit Thread";
+            document.getElementById("editModalBody").innerHTML = `
+                <div class="form-group"><label>Title</label><input type="text" id="topThTitleInput" value="${escapeHtml(item.title)}"></div>
+                <div class="form-group"><label>Content</label><textarea id="topThContentInput" rows="4">${escapeHtml(item.content || "")}</textarea></div>
+                <button class="btn btn-red" onclick="saveTopThread('${id}')">Save</button>
+            `;
+            document.getElementById("editModal").classList.add("active");
+        }
+
+        function saveTopThread(id) {
+            const item = DB.topThreads.find(x => x.id === id);
+            const val = document.getElementById("topThTitleInput").value.trim();
+            const cVal = document.getElementById("topThContentInput").value.trim();
+            if (item && val) {
+                item.title = val;
+                item.content = cVal;
+                saveDB();
+                closeModal("editModal");
+                renderStatsList(activeStatsTab);
+            }
+        }
+
+        function deleteTopThread(id) {
+            if (!confirm("Delete this thread?")) return;
+            DB.topThreads = DB.topThreads.filter(x => x.id !== id);
+            saveDB();
+            renderStatsList(activeStatsTab);
+        }
+
+        /* ==========================================================================
+           6. FORUM BÖLÜMÜ, POST THREAD EDİTÖRÜ & PUAN SİSTEMİ
+           ========================================================================== */
+        function checkPostPermission(user, forum) {
+            if (!user) return { ok: false, msg: "Please Log In or Register first to post threads." };
+            if (user.role === "admin") return { ok: true };
+
+            if (forum.isVip && !user.isVip) {
+                return { ok: false, msg: "VIP Access Required! Contact us on Telegram to get VIP badge." };
+            }
+
+            if (forum.isHelloWorld) {
+                if (user.approved) return { ok: false, msg: "Your account is already approved! You can no longer post in Hello World!; use other sections." };
+                if (user.helloPosted) return { ok: false, msg: "You have already used your 1 introduction thread in Hello World!. Wait for Admin approval." };
+                return { ok: true };
+            }
+
+            if (!user.approved) return { ok: false, msg: "New members must post 1 introduction in 'Hello World!' and wait for Admin approval before posting here." };
+            if (forum.isVerifiedOnly && !user.verifiedSeller) return { ok: false, msg: "Only Admin-approved Verified Sellers can post threads in this section." };
+            return { ok: true };
+        }
+
+        function renderForumPage(root, forumId) {
+            const found = findForumById(forumId);
+            if (!found) { location.hash = "#home"; return; }
+            const { forum, category } = found;
+            const user = getCurrentUser();
+            const admin = isAdminMode();
+
+            if (forum.isVip && (!user || (!user.isVip && user.role !== "admin"))) {
+                const tgUrl = formatExternalUrl(DB.settings.telegramUrl || "https://t.me");
+                root.innerHTML = `
+                    <div class="breadcrumb-bar">
+                        <div class="breadcrumb-links">
+                            <a href="#home">Home</a> <i class="fa-solid fa-angle-right"></i>
+                            <strong style="color:#fff;">${escapeHtml(forum.title)}</strong>
+                        </div>
+                        <a href="#home" class="btn btn-dark btn-sm">Back to Home</a>
+                    </div>
+                    <div class="admin-card" style="max-width:520px; margin:30px auto; text-align:center;">
+                        <h3 style="justify-content:center; color:#ffd32a;"><i class="fa-solid fa-crown"></i> VIP Section — Restricted Access</h3>
+                        <p style="color:var(--text-muted); line-height:1.6; margin-bottom:16px;">
+                            Only members with the <b>VIP</b> badge granted by Admin can view and post in <b>${escapeHtml(forum.title)}</b>.
+                            Contact us on Telegram to upgrade your account to VIP.
+                        </p>
+                        <a href="${escapeHtml(tgUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-orange">
+                            <i class="fa-brands fa-telegram"></i> Contact on Telegram for VIP
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            const perm = checkPostPermission(user, forum);
+            const threads = DB.userThreads.filter(th => th.forumId === forum.id);
+
+            const actionBtn = perm.ok
+                ? `<button class="btn btn-red" onclick="toggleThreadComposer()"><i class="fa-regular fa-pen-to-square"></i> Post thread</button>`
+                : `<span class="badge badge-pending" style="padding:6px 10px;">${escapeHtml(perm.msg)}</span>`;
+
+            const slugPreview = `https://${escapeHtml(DB.settings.siteName.toLowerCase().replace(/[^a-z0-9]/g, ''))}.forum/forums/${escapeHtml(forum.id)}/post-thread`;
+
+            let html = `
+                <div class="breadcrumb-bar">
+                    <div class="breadcrumb-links">
+                        <a href="#home">Home</a> <i class="fa-solid fa-angle-right"></i>
+                        <span>${escapeHtml(category.title)}</span> <i class="fa-solid fa-angle-right"></i>
+                        <strong style="color:#fff;">${escapeHtml(forum.title)}</strong>
+                    </div>
+                    <div>${actionBtn}</div>
+                </div>
+
+                <div id="threadComposerBox" class="post-editor-shell" style="display:none;">
+                    <div class="post-editor-topbar">Post thread</div>
+
+                    <div class="post-title-row">
+                        <select id="ntPrefixSelect" onchange="updatePostPreview('${escapeHtml(forum.id)}')" style="background:#14161a; border:1px solid var(--border-color); color:#fff; padding:8px 10px; border-radius:4px; font-size:12.5px;">
+                            <option value="">(No prefix)</option>
+                            <option value="prefix-blue|NEW">NEW</option>
+                            <option value="prefix-green|GUIDE">GUIDE</option>
+                            <option value="prefix-gold|VIP">VIP</option>
+                        </select>
+                        <input type="text" id="ntTitle" placeholder="Thread title" oninput="updatePostPreview('${escapeHtml(forum.id)}')" style="background:#14161a; border:1px solid var(--border-color); color:#fff; padding:8px 12px; border-radius:4px; font-size:13px; outline:none;">
+                    </div>
+
+                    <div class="post-mode-tabs">
+                        <button type="button" class="post-mode-tab ${composerTabMode === 'discussion' ? 'active' : ''}" onclick="switchComposerMode('discussion', '${escapeHtml(forum.id)}')">
+                            <i class="fa-regular fa-comment-dots"></i> Discussion
+                        </button>
+                        <button type="button" class="post-mode-tab ${composerTabMode === 'poll' ? 'active' : ''}" onclick="switchComposerMode('poll', '${escapeHtml(forum.id)}')">
+                            <i class="fa-solid fa-chart-simple"></i> Poll
+                        </button>
+                    </div>
+
+                    <div class="google-preview-box">
+                        <div class="google-preview-label">Google preview</div>
+                        <div class="google-preview-url">${slugPreview}</div>
+                        <div class="google-preview-title" id="gPreviewTitle">Post thread | ${escapeHtml(DB.settings.siteName)}</div>
+                        <div class="google-preview-meta" id="gPreviewStats">Title characters: 0   Description characters: 0</div>
+                    </div>
+
+                    <div class="word-count-bar" id="editorWordCount">0 Words</div>
+
+                    <div class="rte-toolbar">
+                        <div class="rte-btn-group">
+                            <button type="button" class="rte-btn" title="Bold" onclick="insertFormatting('**', '**')"><i class="fa-solid fa-bold"></i></button>
+                            <button type="button" class="rte-btn" title="Italic" onclick="insertFormatting('*', '*')"><i class="fa-solid fa-italic"></i></button>
+                            <button type="button" class="rte-btn" title="Underline" onclick="insertFormatting('<u>', '</u>')"><i class="fa-solid fa-underline"></i></button>
+                            <button type="button" class="rte-btn" title="Strike" onclick="insertFormatting('~~', '~~')"><i class="fa-solid fa-strikethrough"></i></button>
+                            <button type="button" class="rte-btn" title="List" onclick="insertFormatting('\n- ', '')"><i class="fa-solid fa-list-ul"></i></button>
+                            <button type="button" class="rte-btn" title="Link" onclick="insertFormatting('[Link](https://', ')')"><i class="fa-solid fa-link"></i></button>
+                            <button type="button" class="rte-btn" title="Image" onclick="insertFormatting('[Image](https://', ')')"><i class="fa-regular fa-image"></i></button>
+                            <button type="button" class="rte-btn" title="Emoji" onclick="insertFormatting(' 🔥', '')"><i class="fa-regular fa-face-smile"></i></button>
+                            <button type="button" class="rte-btn" title="Quote" onclick="insertFormatting('\n> ', '')"><i class="fa-solid fa-quote-right"></i></button>
+                            <button type="button" class="rte-btn" title="Code" onclick="insertCodeBlock()"><i class="fa-solid fa-code"></i></button>
+                        </div>
+                        <div class="rte-btn-group">
+                            <button type="button" class="btn btn-dark btn-sm" onclick="toggleTextPreview()"><i class="fa-solid fa-magnifying-glass"></i> Preview</button>
+                        </div>
+                    </div>
+
+                    <textarea id="ntContent" class="rte-textarea" placeholder="Write your thread content here..." oninput="updatePostPreview('${escapeHtml(forum.id)}')"></textarea>
+
+                    <div id="pollExtraBox" style="display:${composerTabMode === 'poll' ? 'block' : 'none'}; padding:12px 16px; background:#15181e; border-top:1px solid var(--border-color);">
+                        <div class="form-group" style="margin-bottom:6px;"><label>Poll Question</label><input type="text" id="ntPollQuestion" placeholder="Ask a poll question..."></div>
+                        <div class="form-group" style="margin-bottom:0;"><label>Poll Options (comma separated)</label><input type="text" id="ntPollOptions" placeholder="Option 1, Option 2, Option 3"></div>
+                    </div>
+
+                    <div id="liveTextPreviewBox" style="display:none; padding:14px 16px; background:#121419; border-top:1px solid var(--border-color);">
+                        <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">Live Content Preview:</div>
+                        <div id="liveTextPreviewContent" style="white-space:pre-wrap; color:#fff;"></div>
+                    </div>
+
+                    <div class="post-meta-fields">
+                        <div class="meta-grid-row">
+                            <label style="color:var(--text-muted); padding-top:6px;">Tags:</label>
+                            <div>
+                                <input type="text" id="ntTags" placeholder="tag1, tag2, tag3">
+                                <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Multiple tags may be separated by commas.</div>
+                            </div>
+                        </div>
+                        <div class="meta-grid-row" style="margin-bottom:0;">
+                            <label style="color:var(--text-muted);">Options:</label>
+                            <div style="display:flex; flex-direction:column; gap:6px; font-size:12px;">
+                                <label style="display:inline-flex; align-items:center; gap:7px; font-weight:400; color:#d1d5db; cursor:pointer;">
+                                    <input type="checkbox" id="ntWatchThread" checked style="width:auto;"> Watch this thread...
+                                </label>
+                                <label style="display:inline-flex; align-items:center; gap:7px; font-weight:400; color:#d1d5db; cursor:pointer; padding-left:18px;">
+                                    <input type="checkbox" id="ntEmailNotify" style="width:auto;"> and receive email notifications
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="post-submit-footer">
+                        <button type="button" class="btn btn-dark" style="background:#5c6370; color:#fff; border:none;" onclick="publishThread('${forum.id}')">
+                            <i class="fa-regular fa-pen-to-square"></i> Post thread
+                        </button>
+                    </div>
+                </div>
+
+                <div class="category-block">
+                    <div class="category-header">
+                        <h2><i class="fa-solid ${forum.icon}"></i> ${escapeHtml(forum.title)}</h2>
+                        <span style="color:var(--text-muted); font-size:12px;">${threads.length} Threads</span>
+                    </div>
+            `;
+
+            if (threads.length === 0) {
+                html += `<div style="padding:28px; text-align:center; color:var(--text-muted);">No threads posted in this section yet. Click "Post thread" above to create one.</div>`;
+            } else {
+                threads.forEach(th => {
+                    const authorObj = DB.users.find(u => u.id === th.authorId);
+                    let badges = "";
+                    if (authorObj?.role === "admin") badges += `<span class="badge badge-admin">Admin</span>`;
+                    if (authorObj?.verifiedSeller) badges += `<span class="badge badge-verified"><i class="fa-solid fa-circle-check"></i> Verified Seller</span>`;
+                    if (authorObj?.isVip) badges += `<span class="badge badge-pending">VIP</span>`;
+                    if (forum.isHelloWorld && authorObj && !authorObj.approved) badges += `<span class="badge badge-pending">Pending Approval</span>`;
+
+                    let adminActions = "";
+                    if (admin) {
+                        if (forum.isHelloWorld && authorObj && !authorObj.approved) {
+                            adminActions += `<button class="btn btn-green btn-sm" onclick="approveUser('${authorObj.id}')"><i class="fa-solid fa-check"></i> Approve</button>`;
+                        }
+                        adminActions += `
+                            <button class="btn btn-dark btn-sm" onclick="openEditUserThreadModal('${th.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
+                            <button class="btn btn-red btn-sm" onclick="deleteUserThread('${th.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+                        `;
+                    }
+
+                    html += `
+                        <div class="node-row">
+                            <div>
+                                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
+                                    ${th.prefix ? `<span class="prefix ${th.prefixClass || 'prefix-blue'}">${escapeHtml(th.prefix)}</span>` : ""}
+                                    <a href="#thread/${encodeURIComponent(th.id)}" class="node-title">${escapeHtml(th.title)}</a>
+                                    ${badges}
+                                </div>
+                                <div style="font-size:11.5px; color:var(--text-muted);">
+                                    By <a href="#profile/${encodeURIComponent(th.authorName)}" class="${authorObj?.styleClass || 'role-member'}">${escapeHtml(th.authorName)}</a> • ${th.date}
+                                    ${th.tags ? ` • <span style="color:#5dade2;">Tags: ${escapeHtml(th.tags)}</span>` : ""}
+                                </div>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="color:var(--text-muted); font-size:12px;">${th.posts.length} Replies</span>
+                                ${adminActions}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            html += `</div>`;
+            root.innerHTML = html;
+        }
+
+        function toggleThreadComposer() {
+            const box = document.getElementById("threadComposerBox");
+            if (!box) return;
+            box.style.display = box.style.display === "none" ? "block" : "none";
+        }
+
+        function switchComposerMode(mode, forumId) {
+            composerTabMode = mode;
+            renderForumPage(document.getElementById("appRoot"), forumId);
+            const box = document.getElementById("threadComposerBox");
+            if (box) box.style.display = "block";
+        }
+
+        function updatePostPreview() {
+            const titleEl = document.getElementById("ntTitle");
+            const bodyEl = document.getElementById("ntContent");
+            if (!titleEl || !bodyEl) return;
+
+            const tVal = titleEl.value;
+            const bVal = bodyEl.value;
+            const words = bVal.trim() ? bVal.trim().split(/\s+/).length : 0;
+
+            const gTitle = document.getElementById("gPreviewTitle");
+            const gStats = document.getElementById("gPreviewStats");
+            const wcBar = document.getElementById("editorWordCount");
+
+            if (gTitle) gTitle.textContent = (tVal.trim() || "Post thread") + ` | ${DB.settings.siteName}`;
+            if (gStats) gStats.textContent = `Title characters: ${tVal.length}   Description characters: ${bVal.length}`;
+            if (wcBar) wcBar.textContent = `${words} Words`;
+        }
+
+        function insertFormatting(beforeStr, afterStr) {
+            const ta = document.getElementById("ntContent");
+            if (!ta) return;
+            const start = ta.selectionStart;
+            const end = ta.selectionEnd;
+            const selected = ta.value.substring(start, end);
+            ta.value = ta.value.substring(0, start) + beforeStr + selected + afterStr + ta.value.substring(end);
+            ta.focus();
+            updatePostPreview();
+        }
+
+        function toggleTextPreview() {
+            const prevBox = document.getElementById("liveTextPreviewBox");
+            const prevContent = document.getElementById("liveTextPreviewContent");
+            const ta = document.getElementById("ntContent");
+            if (!prevBox || !ta) return;
+            const isHidden = prevBox.style.display === "none";
+            prevContent.textContent = ta.value;
+            prevBox.style.display = isHidden ? "block" : "none";
+        }
+
+        function publishThread(forumId) {
+            const user = getCurrentUser();
+            const found = findForumById(forumId);
+            if (!user || !found) return;
+            const perm = checkPostPermission(user, found.forum);
+            if (!perm.ok) { alert(perm.msg); return; }
+
+            const title = document.getElementById("ntTitle").value.trim();
+            const body = document.getElementById("ntContent").value.trim();
+            const prefixRaw = document.getElementById("ntPrefixSelect").value;
+            const tags = document.getElementById("ntTags").value.trim();
+            const watch = document.getElementById("ntWatchThread").checked;
+
+            if (!title || !body) {
+                alert("Please enter a thread title and message.");
+                return;
+            }
+
+            let prefix = "";
+            let prefixClass = "";
+            if (prefixRaw) {
+                const parts = prefixRaw.split("|");
+                prefixClass = parts[0];
+                prefix = parts[1];
+            }
+
+            let pollData = null;
+            if (composerTabMode === "poll") {
+                const q = document.getElementById("ntPollQuestion")?.value.trim() || "";
+                const optsRaw = document.getElementById("ntPollOptions")?.value.trim() || "";
+                const opts = optsRaw.split(",").map(s => s.trim()).filter(Boolean).map(label => ({ label, votes: 0 }));
+                if (q && opts.length >= 2) pollData = { question: q, options: opts };
+            }
+
+            const now = new Date().toLocaleString();
+            const th = {
+                id: "uth-" + Date.now(),
+                forumId,
+                prefix,
+                prefixClass,
+                title,
+                tags,
+                watched: watch,
+                poll: pollData,
+                authorId: user.id,
+                authorName: user.username,
+                date: now,
+                posts: [{ id: "p-" + Date.now(), authorId: user.id, authorName: user.username, content: body, reactions: 0, date: now }]
+            };
+
+            DB.userThreads.unshift(th);
+
+            // Konu açıldıkça Threads, Messages ve Points otomatik artar
+            user.threadsCount = (user.threadsCount || 0) + 1;
+            user.messagesCount = (user.messagesCount || 0) + 1;
+            user.pointsCount = (user.pointsCount || 0) + 25;
+
+            if (found.forum.isHelloWorld) user.helloPosted = true;
+            if (watch) {
+                pushNotification(`Thread "${title}" published (+25 Points).`, `#thread/${encodeURIComponent(th.id)}`);
+            }
+            saveDB();
+            location.hash = `#thread/${encodeURIComponent(th.id)}`;
+        }
+
+        function renderThreadDetailPage(root, threadId) {
+            const decodedId = decodeURIComponent(threadId);
+            const userTh = DB.userThreads.find(x => x.id === decodedId);
+            const seedTh = !userTh ? DB.topThreads.find(x => x.id === decodedId) : null;
+
+            const th = userTh || (seedTh ? {
+                id: seedTh.id,
+                forumId: "general",
+                prefix: seedTh.prefix,
+                prefixClass: seedTh.prefixClass,
+                title: seedTh.title,
+                authorId: "u-admin",
+                authorName: seedTh.author,
+                date: seedTh.time,
+                posts: [{ id: "seed-p-" + seedTh.id, authorId: "u-admin", authorName: seedTh.author, content: seedTh.content || seedTh.title, reactions: 0, date: seedTh.time }]
+            } : null);
+
+            if (!th) { location.hash = "#home"; return; }
+
+            const found = findForumById(th.forumId);
+            const forum = found ? found.forum : { id: "general", title: "General Discussion" };
+            const user = getCurrentUser();
+            const admin = isAdminMode();
+            const authorObj = DB.users.find(u => u.id === th.authorId || u.username === th.authorName);
+
+            let adminButtons = "";
+            if (admin && userTh) {
+                if (forum.isHelloWorld && authorObj && !authorObj.approved) {
+                    adminButtons += `<button class="btn btn-green btn-sm" onclick="approveUser('${authorObj.id}')"><i class="fa-solid fa-check"></i> Approve Member</button>`;
+                }
+                adminButtons += `
+                    <button class="btn btn-dark btn-sm" onclick="openEditUserThreadModal('${th.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
+                    <button class="btn btn-red btn-sm" onclick="deleteUserThread('${th.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+                `;
+            }
+
+            let html = `
+                <div class="breadcrumb-bar">
+                    <div class="breadcrumb-links">
+                        <a href="#home">Home</a> <i class="fa-solid fa-angle-right"></i>
+                        <a href="#forum/${forum.id}">${escapeHtml(forum.title)}</a> <i class="fa-solid fa-angle-right"></i>
+                        <strong style="color:#fff;">${escapeHtml(th.title)}</strong>
+                    </div>
+                    <div style="display:flex; gap:6px;">${adminButtons}</div>
+                </div>
+            `;
+
+            if (th.poll) {
+                html += `
+                    <div class="admin-card">
+                        <h3><i class="fa-solid fa-chart-simple"></i> Poll: ${escapeHtml(th.poll.question)}</h3>
+                        ${th.poll.options.map((opt, idx) => `
+                            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <span>${escapeHtml(opt.label)}</span>
+                                <button class="btn btn-dark btn-sm" onclick="votePoll('${th.id}', ${idx})">Vote (${opt.votes})</button>
+                            </div>
+                        `).join("")}
+                    </div>
+                `;
+            }
+
+            th.posts.forEach((p, idx) => {
+                const pUser = DB.users.find(u => u.id === p.authorId || u.username === p.authorName);
+                let roleBadge = `<span class="badge badge-member">Member</span>`;
+                if (pUser?.role === "admin") roleBadge = `<span class="badge badge-admin">Admin</span>`;
+                else if (pUser?.verifiedSeller) roleBadge = `<span class="badge badge-verified"><i class="fa-solid fa-circle-check"></i> Verified Seller</span>`;
+                else if (pUser?.isVip) roleBadge = `<span class="badge badge-pending">VIP</span>`;
+                else if (pUser && !pUser.approved) roleBadge = `<span class="badge badge-pending">Pending Approval</span>`;
+
+                const avatarHtml = pUser?.avatarUrl
+                    ? `<img src="${escapeHtml(pUser.avatarUrl)}" alt="">`
+                    : escapeHtml(p.authorName.charAt(0).toUpperCase());
+
+                html += `
+                    <div class="post-card">
+                        <div class="post-author-sidebar">
+                            <div class="avatar-box" style="background:${pUser?.avatarColor || '#d92638'};">${avatarHtml}</div>
+                            <a href="#profile/${encodeURIComponent(p.authorName)}" class="${pUser?.styleClass || 'role-member'}" style="font-size:14px;">${escapeHtml(p.authorName)}</a>
+                            ${roleBadge}
+                            ${pUser?.graphicBadge ? renderGraphicBadgeHtml(pUser.graphicBadge) : ""}
+                        </div>
+                        <div class="post-content-area">
+                            <div>
+                                <div class="post-meta-top"><span>${p.date}</span><span>#${idx + 1}</span></div>
+                                <div class="post-body-text">${escapeHtml(p.content)}</div>
+                            </div>
+                            <div style="display:flex; justify-content:flex-end; gap:8px; border-top:1px solid rgba(255,255,255,0.05); padding-top:10px;">
+                                <button class="btn btn-dark btn-sm" onclick="reactToPost('${th.id}', '${p.id}', '${escapeHtml(p.authorName)}')">
+                                    <i class="fa-regular fa-thumbs-up"></i> Like (${p.reactions || 0})
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (user) {
+                html += `
+                    <div class="admin-card">
+                        <h3><i class="fa-solid fa-reply"></i> Post Reply</h3>
+                        <div class="form-group"><textarea id="replyText" rows="3" placeholder="Write your reply..."></textarea></div>
+                        <button class="btn btn-red" onclick="addReply('${th.id}')">Submit Reply</button>
+                    </div>
+                `;
+            } else {
+                html += `<div class="alert-banner alert-info">Please <button class="btn btn-red btn-sm" onclick="openAuthModal('login')">Log In</button> to post a reply.</div>`;
+            }
+
+            root.innerHTML = html;
+        }
+
+        function reactToPost(threadId, postId, authorUsername) {
+            let target = DB.userThreads.find(x => x.id === threadId);
+            if (!target) {
+                const seed = DB.topThreads.find(x => x.id === threadId);
+                if (!seed) return;
+                target = {
+                    id: seed.id,
+                    forumId: "general",
+                    prefix: seed.prefix,
+                    prefixClass: seed.prefixClass,
+                    title: seed.title,
+                    authorId: "u-admin",
+                    authorName: seed.author,
+                    date: seed.time,
+                    posts: [{ id: "seed-p-" + seed.id, authorId: "u-admin", authorName: seed.author, content: seed.content || seed.title, reactions: 0, date: seed.time }]
+                };
+                DB.userThreads.unshift(target);
+            }
+
+            const postObj = target.posts.find(p => p.id === postId);
+            if (postObj) postObj.reactions = (postObj.reactions || 0) + 1;
+
+            const authorObj = DB.users.find(u => u.username === authorUsername);
+            if (authorObj) {
+                authorObj.reactionsCount = (authorObj.reactionsCount || 0) + 1;
+                authorObj.pointsCount = (authorObj.pointsCount || 0) + 5;
+            }
+
+            saveDB();
+            renderThreadDetailPage(document.getElementById("appRoot"), target.id);
+        }
+
+        function votePoll(threadId, optIdx) {
+            const th = DB.userThreads.find(x => x.id === threadId);
+            if (!th || !th.poll || !th.poll.options[optIdx]) return;
+            th.poll.options[optIdx].votes += 1;
+            saveDB();
+            renderThreadDetailPage(document.getElementById("appRoot"), threadId);
+        }
+
+        function addReply(threadId) {
+            const user = getCurrentUser();
+            if (!user) return;
+            const val = document.getElementById("replyText").value.trim();
+            if (!val) return;
+
+            let target = DB.userThreads.find(x => x.id === threadId);
+            if (!target) {
+                const seed = DB.topThreads.find(x => x.id === threadId);
+                if (!seed) return;
+                target = {
+                    id: seed.id,
+                    forumId: "general",
+                    prefix: seed.prefix,
+                    prefixClass: seed.prefixClass,
+                    title: seed.title,
+                    authorId: "u-admin",
+                    authorName: seed.author,
+                    date: seed.time,
+                    posts: [{ id: "seed-p-" + seed.id, authorId: "u-admin", authorName: seed.author, content: seed.content || seed.title, reactions: 0, date: seed.time }]
+                };
+                DB.userThreads.unshift(target);
+            }
+
+            target.posts.push({
+                id: "p-" + Date.now(),
+                authorId: user.id,
+                authorName: user.username,
+                content: val,
+                reactions: 0,
+                date: new Date().toLocaleString()
+            });
+
+            user.messagesCount = (user.messagesCount || 0) + 1;
+            user.pointsCount = (user.pointsCount || 0) + 10;
+
+            if (target.authorName !== user.username) {
+                pushNotification(`${user.username} replied to thread "${target.title}"`, `#thread/${encodeURIComponent(target.id)}`);
+            }
+            saveDB();
+            renderThreadDetailPage(document.getElementById("appRoot"), target.id);
+        }
+
+        /* ==========================================================================
+           7. PROFİL SAYFASI (HAREKETLİ PROFİL BANNER & AVATAR + CANLI İSTATİSTİKLER)
+           ========================================================================== */
+        function renderProfilePage(root, username) {
+            const target = DB.users.find(u => u.username.toLowerCase() === username.toLowerCase());
+            if (!target) { location.hash = "#members"; return; }
+            const me = getCurrentUser();
+            const isOwnProfile = me && me.id === target.id;
+            const userThs = DB.userThreads.filter(th => th.authorId === target.id || th.authorName === target.username);
+            const totalThreadsDisplay = (target.threadsCount || 0) + userThs.length;
+
+            let badges = `<span class="badge badge-member">Member</span>`;
+            if (target.role === "admin") badges = `<span class="badge badge-admin">Admin</span>`;
+            else if (target.verifiedSeller) badges = `<span class="badge badge-verified"><i class="fa-solid fa-circle-check"></i> Verified Seller</span>`;
+            else if (target.isVip) badges = `<span class="badge badge-pending">VIP Member</span>`;
+            else if (!target.approved) badges = `<span class="badge badge-pending">Pending Approval</span>`;
+
+            const bannerHtml = target.bannerUrl ? `<img src="${escapeHtml(target.bannerUrl)}" alt="Profile Banner">` : "";
+            const avatarHtml = target.avatarUrl ? `<img src="${escapeHtml(target.avatarUrl)}" alt="Avatar">` : escapeHtml(target.username.charAt(0).toUpperCase());
+
+            let editOwnFormHtml = "";
+            if (isOwnProfile) {
+                editOwnFormHtml = `
+                    <div class="admin-card">
+                        <h3><i class="fa-solid fa-user-pen"></i> Edit My Profile (Animated Banner, Avatar & Bio)</h3>
+                        <div class="form-group">
+                            <label>Upload Profile Avatar (Image or Animated GIF)</label>
+                            <input type="file" accept="image/*" onchange="uploadProfileMedia(event, '${target.id}', 'avatarUrl')">
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Profile Banner (Image or Animated GIF)</label>
+                            <input type="file" accept="image/*" onchange="uploadProfileMedia(event, '${target.id}', 'bannerUrl')">
+                        </div>
+                        <div class="form-group">
+                            <label>Or Paste Animated Banner GIF URL</label>
+                            <input type="text" id="profBannerUrlInput" value="${escapeHtml(target.bannerUrl || '')}" placeholder="https://.../banner.gif">
+                        </div>
+                        <div class="form-group">
+                            <label>About / Bio</label>
+                            <textarea id="profBioInput" rows="3">${escapeHtml(target.bio || "")}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Fallback Avatar Color</label>
+                            <input type="color" id="profColorInput" value="${escapeHtml(target.avatarColor || '#d92638')}" style="height:36px; padding:2px;">
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" id="profBdayInput" ${target.birthdayToday ? "checked" : ""} style="width:auto; margin-right:6px;"> Show Birthday Today</label>
+                        </div>
+                        <button class="btn btn-red" onclick="saveOwnProfile('${target.id}')">Save Profile</button>
+                    </div>
+                `;
+            }
+
+            let dmSendBtn = "";
+            if (me && me.id !== target.id) {
+                dmSendBtn = `<button class="btn btn-orange btn-sm" onclick="startDmWith('${escapeHtml(target.username)}')"><i class="fa-regular fa-envelope"></i> Send direct message</button>`;
+            }
+
+            root.innerHTML = `
+                <div class="breadcrumb-bar">
+                    <strong>Profile: <span class="${target.styleClass || 'role-member'}">${escapeHtml(target.username)}</span></strong>
+                    <div style="display:flex; gap:8px;">
+                        ${dmSendBtn}
+                        <a href="#members" class="btn btn-dark btn-sm">Back to Members</a>
+                    </div>
+                </div>
+
+                <div class="profile-hero-card">
+                    <div class="profile-banner-strip">${bannerHtml}</div>
+                    <div class="profile-details-body">
+                        <div class="profile-avatar-lg" style="background:${target.avatarColor || '#d92638'};">${avatarHtml}</div>
+                        <div style="flex:1;">
+                            <h2 style="font-size:22px; margin-bottom:6px;"><span class="${target.styleClass || 'role-member'}">${escapeHtml(target.username)}</span></h2>
+                            <div style="margin-bottom:8px;">${renderGraphicBadgeHtml(target.graphicBadge)}</div>
+                            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;">${badges}</div>
+                            <p style="color:#d1d5db; font-size:13px;">${escapeHtml(target.bio || "No bio set.")}</p>
+                        </div>
+                    </div>
+                    <div class="profile-stats-bar">
+                        <div class="p-stat-item"><span>Messages</span><strong>${(target.messagesCount || 0).toLocaleString()}</strong></div>
+                        <div class="p-stat-item"><span>Threads</span><strong>${totalThreadsDisplay.toLocaleString()}</strong></div>
+                        <div class="p-stat-item"><span>Reaction score</span><strong>${(target.reactionsCount || 0).toLocaleString()}</strong></div>
+                        <div class="p-stat-item"><span>Points</span><strong>${(target.pointsCount || 0).toLocaleString()}</strong></div>
+                        <div class="p-stat-item"><span>Awards</span><strong>${(target.awardsCount || 0).toLocaleString()}</strong></div>
+                    </div>
+                </div>
+                ${editOwnFormHtml}
+            `;
+        }
+
+        function uploadProfileMedia(ev, userId, field) {
+            const file = ev.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const u = DB.users.find(x => x.id === userId);
+                if (u) { u[field] = e.target.result; saveDB(); route(); }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveOwnProfile(userId) {
+            const u = DB.users.find(x => x.id === userId);
+            if (!u) return;
+            u.bio = document.getElementById("profBioInput").value.trim();
+            const bUrl = document.getElementById("profBannerUrlInput").value.trim();
+            if (bUrl) u.bannerUrl = bUrl;
+            u.avatarColor = document.getElementById("profColorInput").value;
+            u.birthdayToday = document.getElementById("profBdayInput").checked;
+            saveDB();
+            alert("Profile updated!");
+            route();
+        }
+
+        /* ==========================================================================
+           8. MEMBERS DIRECTORY, DM, PREMIUM (TELEGRAM), WHAT'S NEW & ADVERTISING
+           ========================================================================== */
+        function renderMembersDirectoryPage(root) {
+            const navItems = [
+                { key: "overview", label: "Overview", icon: "fa-list" },
+                { key: "messages", label: "Most messages", icon: "fa-comment" },
+                { key: "reactions", label: "Highest reaction score", icon: "fa-thumbs-up" },
+                { key: "points", label: "Most points", icon: "fa-bullseye" },
+                { key: "solutions", label: "Most solutions", icon: "fa-check-double" },
+                { key: "birthdays", label: "Today's birthdays", icon: "fa-cake-candles" },
+                { key: "staff", label: "Staff members", icon: "fa-user-tie" },
+                { key: "registered", label: "Registered members", icon: "fa-users" }
+            ];
+
+            const byMessages = [...DB.users].sort((a, b) => (b.messagesCount || 0) - (a.messagesCount || 0)).slice(0, 5);
+            const byReactions = [...DB.users].sort((a, b) => (b.reactionsCount || 0) - (a.reactionsCount || 0)).slice(0, 5);
+            const byPoints = [...DB.users].sort((a, b) => (b.pointsCount || 0) - (a.pointsCount || 0)).slice(0, 5);
+            const bySolutions = [...DB.users].sort((a, b) => (b.awardsCount || 0) - (a.awardsCount || 0)).slice(0, 5);
+            const birthdays = DB.users.filter(u => u.birthdayToday);
+
+            const onlineCloud = DB.users.map(u => `
+                <a href="#profile/${encodeURIComponent(u.username)}" class="${u.styleClass || 'role-member'}" style="margin-right:6px;">${escapeHtml(u.username)}</a>
+            `).join(", ");
+
+            let detailBlock = "";
+            if (activeMembersSection === "overview") {
+                detailBlock = `
+                    <div class="leaderboards-3col">
+                        <div class="leader-card">
+                            <h4><i class="fa-regular fa-comment"></i> Most messages</h4>
+                            ${byMessages.map(u => `<div class="leader-row"><a href="#profile/${encodeURIComponent(u.username)}" class="${u.styleClass || 'role-member'}">${escapeHtml(u.username)}</a><b>${(u.messagesCount || 0).toLocaleString()}</b></div>`).join("")}
+                        </div>
+                        <div class="leader-card">
+                            <h4><i class="fa-regular fa-thumbs-up"></i> Highest reaction score</h4>
+                            ${byReactions.map(u => `<div class="leader-row"><a href="#profile/${encodeURIComponent(u.username)}" class="${u.styleClass || 'role-member'}">${escapeHtml(u.username)}</a><b>${(u.reactionsCount || 0).toLocaleString()}</b></div>`).join("")}
+                        </div>
+                        <div class="leader-card">
+                            <h4><i class="fa-solid fa-bullseye"></i> Most points</h4>
+                            ${byPoints.map(u => `<div class="leader-row"><a href="#profile/${encodeURIComponent(u.username)}" class="${u.styleClass || 'role-member'}">${escapeHtml(u.username)}</a><b>${(u.pointsCount || 0).toLocaleString()}</b></div>`).join("")}
+                        </div>
+                    </div>
+                    <div class="leaderboards-3col" style="grid-template-columns: repeat(2, 1fr);">
+                        <div class="leader-card">
+                            <h4><i class="fa-solid fa-award"></i> Most awards</h4>
+                            ${bySolutions.map(u => `<div class="leader-row"><a href="#profile/${encodeURIComponent(u.username)}" class="${u.styleClass || 'role-member'}">${escapeHtml(u.username)}</a><b>${u.awardsCount || 0}</b></div>`).join("")}
+                        </div>
+                        <div class="leader-card">
+                            <h4><i class="fa-solid fa-cake-candles"></i> Today's birthdays</h4>
+                            ${birthdays.length ? birthdays.map(u => `<div class="leader-row"><a href="#profile/${encodeURIComponent(u.username)}" class="${u.styleClass || 'role-member'}">${escapeHtml(u.username)}</a><span class="badge badge-member">Birthday</span></div>`).join("") : `<div style="color:var(--text-muted); font-size:12px;">No birthdays today.</div>`}
+                        </div>
+                    </div>
+                `;
+            } else {
+                const listToShow = activeMembersSection === "staff"
+                    ? DB.users.filter(u => u.role === "admin" || u.styleClass === "role-mod")
+                    : DB.users;
+
+                detailBlock = `
+                    <div class="category-block">
+                        <div class="category-header"><h2>${navItems.find(n => n.key === activeMembersSection)?.label || "Members"}</h2></div>
+                        ${listToShow.map(u => `
+                            <div class="node-row">
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <div class="avatar-box" style="width:34px; height:34px; font-size:14px; background:${u.avatarColor || '#d92638'};">${escapeHtml(u.username.charAt(0).toUpperCase())}</div>
+                                    <div>
+                                        <a href="#profile/${encodeURIComponent(u.username)}" class="node-title ${u.styleClass || 'role-member'}">${escapeHtml(u.username)}</a>
+                                        <div style="font-size:11px; color:var(--text-muted);">${escapeHtml(u.bio || "")}</div>
+                                    </div>
+                                </div>
+                                <div style="display:flex; gap:14px; font-size:12px; color:var(--text-muted);">
+                                    <span>Msgs: <b>${u.messagesCount || 0}</b></span>
+                                    <span>Pts: <b>${u.pointsCount || 0}</b></span>
+                                </div>
+                            </div>
+                        `).join("")}
+                    </div>
+                `;
+            }
+
+            root.innerHTML = `
+                <div class="breadcrumb-bar">
+                    <strong><i class="fa-solid fa-users"></i> Members</strong>
+                    <a href="#home" class="btn btn-dark btn-sm">Back to Home</a>
+                </div>
+                <div class="members-directory-layout">
+                    <div class="members-side-nav">
+                        <div class="members-side-title">Members</div>
+                        ${navItems.map(n => `
+                            <div class="members-side-item ${activeMembersSection === n.key ? 'active' : ''}" onclick="selectMembersSection('${n.key}')">
+                                <i class="fa-solid ${n.icon}"></i> <span>${n.label}</span>
+                            </div>
+                        `).join("")}
+                    </div>
+                    <div>
+                        <div class="category-header" style="border-radius:4px 4px 0 0;"><h2>Members recently online</h2></div>
+                        <div class="online-cloud-box" style="border-radius:0 0 4px 4px;">${onlineCloud}</div>
+                        ${detailBlock}
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectMembersSection(key) {
+            activeMembersSection = key;
+            renderMembersDirectoryPage(document.getElementById("appRoot"));
+        }
+
+        function startDmWith(username) {
+            activeDmPartner = username;
+            location.hash = "#dm";
+        }
+
+        function renderDmPage(root) {
+            const me = getCurrentUser();
+            if (!me) {
+                root.innerHTML = `<div class="alert-banner alert-info">Please <button class="btn btn-red btn-sm" onclick="openAuthModal('login')">Log In</button> to use Direct Messages.</div>`;
+                return;
+            }
+            const otherUsers = DB.users.filter(u => u.id !== me.id);
+            if (!activeDmPartner && otherUsers.length > 0) activeDmPartner = otherUsers[0].username;
+            const currentThread = DB.dmThreads.find(d => d.participants.includes(me.username) && d.participants.includes(activeDmPartner));
+
+            root.innerHTML = `
+                <div class="breadcrumb-bar">
+                    <strong><i class="fa-regular fa-envelope"></i> Direct Messages</strong>
+                    <a href="#home" class="btn btn-dark btn-sm">Back to Home</a>
+                </div>
+                <div class="dm-layout">
+                    <div class="dm-sidebar">
+                        <div style="font-weight:700; margin-bottom:10px; font-size:12.5px;">Members</div>
+                        ${otherUsers.map(u => `
+                            <div class="dm-thread-item ${activeDmPartner === u.username ? 'active' : ''}" onclick="startDmWith('${escapeHtml(u.username)}')">
+                                <span class="${u.styleClass || 'role-member'}">${escapeHtml(u.username)}</span>
+                            </div>
+                        `).join("")}
+                    </div>
+                    <div class="dm-chat-panel">
+                        <div>
+                            <h3 style="margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border-color);">Chat with ${escapeHtml(activeDmPartner || "")}</h3>
+                            <div class="dm-messages-box">
+                                ${(currentThread?.messages || []).map(m => `
+                                    <div class="dm-bubble">
+                                        <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); margin-bottom:4px;">
+                                            <b>${escapeHtml(m.sender)}</b><span>${escapeHtml(m.time)}</span>
+                                        </div>
+                                        <div>${escapeHtml(m.text)}</div>
+                                    </div>
+                                `).join("") || `<div style="color:var(--text-muted); font-size:12px;">No messages yet. Say hello!</div>`}
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" id="dmInputBox" placeholder="Type a direct message..." style="flex:1; background:#101216; border:1px solid var(--border-color); color:#fff; padding:8px 11px; border-radius:4px;">
+                            <button class="btn btn-red" onclick="sendDmMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function sendDmMessage() {
+            const me = getCurrentUser();
+            if (!me || !activeDmPartner) return;
+            const txt = document.getElementById("dmInputBox").value.trim();
+            if (!txt) return;
+            let thread = DB.dmThreads.find(d => d.participants.includes(me.username) && d.participants.includes(activeDmPartner));
+            if (!thread) {
+                thread = { id: "dm-" + Date.now(), participants: [me.username, activeDmPartner], messages: [] };
+                DB.dmThreads.push(thread);
+            }
+            thread.messages.push({ sender: me.username, text: txt, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) });
+            pushNotification(`New DM from ${me.username}: "${txt.slice(0, 40)}"`, "#dm");
+            saveDB();
+            renderDmPage(document.getElementById("appRoot"));
+        }
+
+        function renderWhatsNewPage(root) {
+            const userAddedMapped = DB.userThreads.map(th => ({
+                id: th.id,
+                title: th.title,
+                author: th.authorName,
+                date: th.date,
+                forumTitle: findForumById(th.forumId)?.forum?.title || "Forum"
+            }));
+
+            const list = [...userAddedMapped, ...DB.topThreads.map(t => ({
+                id: t.id,
+                title: t.title,
+                author: t.author,
+                date: t.time,
+                forumTitle: "General Discussion"
+            }))];
+
+            root.innerHTML = `
+                <div class="breadcrumb-bar">
+                    <strong><i class="fa-solid fa-bolt" style="color:var(--accent-red);"></i> What's New — Latest Threads</strong>
+                    <a href="#home" class="btn btn-dark btn-sm">Back to Home</a>
+                </div>
+                <div class="category-block">
+                    <div class="category-header"><h2>Latest Forum Threads</h2></div>
+                    ${list.map(item => `
+                        <div class="node-row">
+                            <div>
+                                <a href="#thread/${encodeURIComponent(item.id)}" class="node-title">${escapeHtml(item.title)}</a>
+                                <div style="font-size:11.5px; color:var(--text-muted);">In <b>${escapeHtml(item.forumTitle)}</b> • By ${escapeHtml(item.author)} • ${escapeHtml(item.date)}</div>
+                            </div>
+                            <span class="badge badge-member">Open Thread</span>
+                        </div>
+                    `).join("")}
+                </div>
+            `;
+        }
+
+        function renderPremiumPage(root) {
+            const tgUrl = formatExternalUrl(DB.settings.telegramUrl || "https://t.me");
+            const plans = [
+                { name: "VIP Monthly", price: "$25 / mo", desc: "Unlock all Anarky VIP Section forums, glowing VIP role & priority access." },
+                { name: "VIP Lifetime", price: "$99 / once", desc: "Permanent VIP badge, access to all private VIP sections & animated profile perks." },
+                { name: "Verified Seller Badge", price: "$65 / mo", desc: "Verified Seller green badge + permission to post in Verified Sellers Marketplace." }
+            ];
+            root.innerHTML = `
+                <div class="breadcrumb-bar">
+                    <strong><i class="fa-solid fa-gem" style="color:#ffd32a;"></i> VIP Upgrades — Contact via Telegram</strong>
+                    <a href="#home" class="btn btn-dark btn-sm">Back to Home</a>
+                </div>
+                <div class="admin-grid">
+                    ${plans.map(pl => `
+                        <div class="admin-card">
+                            <h3>${pl.name}</h3>
+                            <div style="font-size:22px; font-weight:800; color:#fff; margin-bottom:10px;">${pl.price}</div>
+                            <p style="color:var(--text-muted); margin-bottom:16px; line-height:1.5;">${pl.desc}</p>
+                            <a href="${escapeHtml(tgUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-orange">
+                                <i class="fa-brands fa-telegram"></i> Contact on Telegram
+                            </a>
+                        </div>
+                    `).join("")}
+                </div>
+            `;
+        }
+
+        function renderAdvertisingPage(root) {
+            const tgUrl = formatExternalUrl(DB.settings.telegramUrl || "https://t.me");
+            const activeGifs = getActiveGifAds();
+            const adPackages = [
+                { slot: "Top Full-Width Animated GIF Banner", price: "$50 / week", rules: "Supports animated GIFs with clickable external link (Instagram, Telegram, Website)." },
+                { slot: "Multi-Slot GIF Carousel", price: "$90 / month", rules: "Auto-resizes cleanly alongside other active GIF banners at the top of the forum." }
+            ];
+            root.innerHTML = `
+                <div class="breadcrumb-bar">
+                    <strong><i class="fa-solid fa-bullhorn" style="color:var(--accent-red);"></i> Advertising & Animated GIF Slots</strong>
+                    <a href="#home" class="btn btn-dark btn-sm">Back to Home</a>
+                </div>
+                <div class="admin-card">
+                    <h3><i class="fa-solid fa-film"></i> Active Top GIF Banners (${activeGifs.length})</h3>
+                    <div class="gif-gallery-grid ${activeGifs.length === 1 ? 'count-1' : activeGifs.length === 2 ? 'count-2' : 'count-3plus'}">
+                        ${activeGifs.map(g => `<div class="gif-ad-card"><a href="${escapeHtml(formatExternalUrl(g.linkUrl))}" target="_blank" rel="noopener noreferrer" class="gif-clickable"><img src="${escapeHtml(g.gifUrl)}" alt="${escapeHtml(g.title)}"></a><div class="gif-ad-meta"><span>${escapeHtml(g.title)}</span></div></div>`).join("") || `<p style="color:var(--text-muted);">No GIF ads active yet.</p>`}
+                    </div>
+                </div>
+                <div class="admin-grid">
+                    ${adPackages.map(p => `
+                        <div class="admin-card">
+                            <h3>${p.slot}</h3>
+                            <div style="font-size:20px; font-weight:800; color:#2ecc71; margin-bottom:8px;">${p.price}</div>
+                            <p style="color:var(--text-muted); font-size:12px; margin-bottom:14px;">${p.rules}</p>
+                            <a href="${escapeHtml(tgUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-red btn-sm"><i class="fa-brands fa-telegram"></i> Contact on Telegram</a>
+                        </div>
+                    `).join("")}
+                </div>
+            `;
+        }
+
+        function renderAwardsPage(root) {
+            root.innerHTML = `
+                <div class="breadcrumb-bar">
+                    <strong><i class="fa-solid fa-award" style="color:var(--accent-orange);"></i> Special Graphic Rank Badges</strong>
+                    <a href="#home" class="btn btn-dark btn-sm">Back to Home</a>
+                </div>
+                <div class="admin-grid">
+                    ${Object.entries(GRAPHIC_BADGES).map(([k, b]) => `
+                        <div class="admin-card">
+                            <div style="margin-bottom:10px;">${renderGraphicBadgeHtml(k)}</div>
+                            <p style="color:var(--text-muted);">Assigned by Admin to distinguished members and verified vendors.</p>
+                        </div>
+                    `).join("")}
+                </div>
+            `;
+        }
+
+        function renderSocialPage(root, net) {
+            const map = {
+                twitter: { title: "X / Twitter", url: "https://x.com", icon: "fa-brands fa-x-twitter" },
+                discord: { title: "Discord", url: "https://discord.com", icon: "fa-brands fa-discord" },
+                telegram: { title: "Telegram", url: formatExternalUrl(DB.settings.telegramUrl), icon: "fa-brands fa-telegram" },
+                github: { title: "GitHub", url: "https://github.com", icon: "fa-brands fa-github" }
+            };
+            const item = map[net] || map.telegram;
+            root.innerHTML = `
+                <div class="admin-card" style="max-width:460px; margin:30px auto; text-align:center;">
+                    <h3><i class="${item.icon}"></i> ${item.title}</h3>
+                    <p style="color:var(--text-muted); margin-bottom:14px;">Official ${escapeHtml(DB.settings.siteName)} link.</p>
+                    <div style="display:flex; justify-content:center; gap:8px;">
+                        <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="btn btn-red">Open ${item.title}</a>
+                        <a href="#home" class="btn btn-dark">Home</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* ==========================================================================
+           9. GİZLİ ADMİN PANELİ (#admin)
+           ========================================================================== */
+        function renderAdminPage(root) {
+            if (!isAdminMode()) {
+                root.innerHTML = `
+                    <div class="admin-card" style="max-width:420px; margin:40px auto;">
+                        <h3><i class="fa-solid fa-shield-halved" style="color:var(--accent-red);"></i> Admin Panel Access</h3>
+                        <div class="form-group"><label>Username</label><input type="text" id="admLoginUser" placeholder="Username"></div>
+                        <div class="form-group"><label>Password</label><input type="password" id="admLoginPass" placeholder="Password"></div>
+                        <button class="btn btn-red" style="width:100%; justify-content:center;" onclick="doAdminLogin()">Log In to Admin Panel</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const s = DB.settings;
+
+            root.innerHTML = `
+                <div class="breadcrumb-bar" style="border-left:3px solid var(--accent-red);">
+                    <div><h2 style="font-size:16px;"><i class="fa-solid fa-shield-halved" style="color:var(--accent-red);"></i> ${escapeHtml(s.siteName)} — Control Panel</h2></div>
+                    <div style="display:flex; gap:8px;">
+                        <a href="#home" class="btn btn-green"><i class="fa-solid fa-house"></i> Enter Homepage</a>
+                        <button class="btn btn-dark" onclick="logoutUser()">Log Out</button>
+                    </div>
+                </div>
+
+                <div class="admin-grid">
+                    <div class="admin-card">
+                        <h3><i class="fa-solid fa-palette"></i> Site Branding, Logo, Background & Telegram</h3>
+                        <div class="form-group"><label>Site Name</label><input type="text" id="admSiteName" value="${escapeHtml(s.siteName)}"></div>
+                        <div class="form-group"><label>Subtitle</label><input type="text" id="admSubtitle" value="${escapeHtml(s.subtitle)}"></div>
+                        <div class="form-group"><label>VIP & Contact Telegram URL</label><input type="text" id="admTelegramUrl" value="${escapeHtml(s.telegramUrl || 'https://t.me/anarkyforum_vip')}"></div>
+                        <div class="form-group"><label>Upload Logo Image (Optional)</label><input type="file" accept="image/*" onchange="uploadDataUrl(event, 'logo')"></div>
+                        <div class="form-group"><label>Upload Favicon / Site Icon</label><input type="file" accept="image/*" onchange="uploadDataUrl(event, 'favicon')"></div>
+                        <div class="form-group"><label>Upload Header & Full-Page Background Image</label><input type="file" accept="image/*" onchange="uploadDataUrl(event, 'bg')"></div>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <button class="btn btn-red" onclick="saveBranding()"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
+                            <button class="btn btn-dark" onclick="clearBrandingImages()">Reset Images</button>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3><i class="fa-solid fa-film"></i> Top Animated GIF Ads (${DB.gifAds.length})</h3>
+                        <div class="form-group"><label>GIF Ad Title</label><input type="text" id="gifAdTitle" placeholder="e.g. Instagram Sponsor"></div>
+                        <div class="form-group"><label>Upload GIF File (.gif)</label><input type="file" accept="image/gif,image/*" onchange="uploadGifFile(event)"></div>
+                        <div class="form-group"><label>Or Paste GIF URL</label><input type="text" id="gifAdUrl" placeholder="https://.../banner.gif"></div>
+                        <div class="form-group"><label>Target Link (e.g. https://instagram.com/username)</label><input type="text" id="gifAdLink" placeholder="https://instagram.com/..."></div>
+                        <button class="btn btn-green" onclick="addGifAd()"><i class="fa-solid fa-plus"></i> Add GIF Ad</button>
+
+                        <div style="margin-top:14px;">
+                            ${DB.gifAds.map(g => `
+                                <div class="leader-row">
+                                    <span><b>${escapeHtml(g.title)}</b> <span style="color:var(--text-muted); font-size:11px;">(${escapeHtml(g.linkUrl)})</span></span>
+                                    <button class="btn btn-red btn-sm" onclick="removeGifAd('${g.id}')"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            `).join("")}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <h3><i class="fa-solid fa-users-gear"></i> Members, VIP Access, Verified Sellers & Graphic Badges</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Hello World</th>
+                                <th>Graphic Rank Badge</th>
+                                <th>Name Glow Style</th>
+                                <th>VIP & Seller Controls</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${DB.users.map(u => `
+                                <tr>
+                                    <td><a href="#profile/${encodeURIComponent(u.username)}" class="${u.styleClass || 'role-member'}">${escapeHtml(u.username)}</a></td>
+                                    <td>${u.approved ? `<span class="badge badge-verified">Approved</span>` : `<span class="badge badge-pending">Pending</span>`}</td>
+                                    <td>
+                                        <select onchange="changeUserGraphicBadge('${u.id}', this.value)" style="width:auto; padding:4px 8px;">
+                                            <option value="" ${!u.graphicBadge ? 'selected' : ''}>None</option>
+                                            <option value="founder" ${u.graphicBadge === 'founder' ? 'selected' : ''}>FOUNDER (Red Dragon)</option>
+                                            <option value="legendary" ${u.graphicBadge === 'legendary' ? 'selected' : ''}>LEGENDARY MEMBER (Cyan Wings)</option>
+                                            <option value="expert" ${u.graphicBadge === 'expert' ? 'selected' : ''}>SPECIALIST (Orange Hood)</option>
+                                            <option value="topvip" ${u.graphicBadge === 'topvip' ? 'selected' : ''}>TOP VIP (Gold Crown)</option>
+                                            <option value="verified" ${u.graphicBadge === 'verified' ? 'selected' : ''}>VERIFIED SELLER (Green Check)</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select onchange="changeUserStyle('${u.id}', this.value)" style="width:auto; padding:4px 8px;">
+                                            <option value="role-member" ${u.styleClass === 'role-member' ? 'selected' : ''}>Member</option>
+                                            <option value="role-legendary" ${u.styleClass === 'role-legendary' ? 'selected' : ''}>Legendary Cyan Glow</option>
+                                            <option value="role-verified" ${u.styleClass === 'role-verified' ? 'selected' : ''}>Verified Green Glow</option>
+                                            <option value="role-vip" ${u.styleClass === 'role-vip' ? 'selected' : ''}>VIP Gold Glow</option>
+                                            <option value="role-pro" ${u.styleClass === 'role-pro' ? 'selected' : ''}>Orange Glow</option>
+                                            <option value="role-mod" ${u.styleClass === 'role-mod' ? 'selected' : ''}>Purple Sparkle</option>
+                                            <option value="role-sparkle-mythic" ${u.styleClass === 'role-sparkle-mythic' ? 'selected' : ''}>Rainbow Sparkle</option>
+                                            <option value="role-admin" ${u.styleClass === 'role-admin' ? 'selected' : ''}>Founder Red Glow</option>
+                                        </select>
+                                    </td>
+                                    <td style="display:flex; gap:5px; flex-wrap:wrap;">
+                                        ${!u.approved ? `<button class="btn btn-green btn-sm" onclick="approveUser('${u.id}')">Approve</button>` : ""}
+                                        <button class="btn btn-orange btn-sm" onclick="toggleVip('${u.id}')">${u.isVip ? "Revoke VIP" : "Grant VIP"}</button>
+                                        <button class="btn btn-dark btn-sm" onclick="toggleSeller('${u.id}')">${u.verifiedSeller ? "Revoke Seller" : "Verified Seller"}</button>
+                                    </td>
+                                </tr>
+                            `).join("")}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function doAdminLogin() {
+            const u = document.getElementById("admLoginUser").value.trim();
+            const p = document.getElementById("admLoginPass").value.trim();
+            if (u === "admin" && p === "admin") {
+                const adm = DB.users.find(x => x.role === "admin");
+                DB.currentUserId = adm.id;
+                DB.adminAuthenticated = true;
+                saveDB();
+                route();
+            } else { alert("Invalid credentials!"); }
+        }
+
+        function uploadDataUrl(ev, kind) {
+            const file = ev.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                if (kind === "logo") DB.settings.logoDataUrl = e.target.result;
+                if (kind === "favicon") DB.settings.faviconDataUrl = e.target.result;
+                if (kind === "bg") DB.settings.bgDataUrl = e.target.result;
+                saveDB();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveBranding() {
+            DB.settings.siteName = document.getElementById("admSiteName").value.trim() || "ANARKY FORUM";
+            DB.settings.subtitle = document.getElementById("admSubtitle").value.trim() || "FORUMS";
+            DB.settings.telegramUrl = document.getElementById("admTelegramUrl").value.trim() || "https://t.me";
+            saveDB();
+            alert("Settings saved!");
+        }
+
+        function clearBrandingImages() {
+            DB.settings.logoDataUrl = "";
+            DB.settings.faviconDataUrl = "";
+            DB.settings.bgDataUrl = "";
+            saveDB();
+            route();
+        }
+
+        function uploadGifFile(ev) {
+            const file = ev.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) { document.getElementById("gifAdUrl").value = e.target.result; };
+            reader.readAsDataURL(file);
+        }
+
+        function addGifAd() {
+            const title = document.getElementById("gifAdTitle").value.trim() || `GIF Ad #${DB.gifAds.length + 1}`;
+            const gifUrl = document.getElementById("gifAdUrl").value.trim();
+            const linkUrl = document.getElementById("gifAdLink").value.trim() || "https://instagram.com";
+            if (!gifUrl) { alert("Please upload a GIF or paste a GIF URL."); return; }
+            DB.gifAds.push({ id: "gif-" + Date.now(), title, gifUrl, linkUrl, active: true });
+            saveDB();
+            route();
+        }
+
+        function removeGifAd(id) {
+            DB.gifAds = DB.gifAds.filter(g => g.id !== id);
+            saveDB();
+            route();
+        }
+
+        function approveUser(userId) {
+            const u = DB.users.find(x => x.id === userId);
+            if (u) {
+                u.approved = true;
+                u.awardsCount = (u.awardsCount || 0) + 1;
+                u.pointsCount = (u.pointsCount || 0) + 50;
+                pushNotification(`Your account (${u.username}) has been approved! (+50 Points)`, "#home");
+                saveDB();
+                route();
+            }
+        }
+
+        function toggleVip(userId) {
+            const u = DB.users.find(x => x.id === userId);
+            if (u) {
+                u.isVip = !u.isVip;
+                if (u.isVip) {
+                    u.approved = true;
+                    u.awardsCount = (u.awardsCount || 0) + 1;
+                    u.pointsCount = (u.pointsCount || 0) + 50;
+                    pushNotification(`You received the VIP badge and access to Anarky VIP Section! (+50 Points)`, "#home");
+                }
+                saveDB();
+                route();
+            }
+        }
+
+        function toggleSeller(userId) {
+            const u = DB.users.find(x => x.id === userId);
+            if (u) {
+                u.verifiedSeller = !u.verifiedSeller;
+                if (u.verifiedSeller) {
+                    u.approved = true;
+                    u.graphicBadge = "verified";
+                    u.styleClass = "role-verified";
+                    u.awardsCount = (u.awardsCount || 0) + 1;
+                    u.pointsCount = (u.pointsCount || 0) + 50;
+                    pushNotification(`You earned the Verified Seller badge! (+50 Points)`, "#forum/verified-sellers");
+                }
+                saveDB();
+                route();
+            }
+        }
+
+        function changeUserGraphicBadge(userId, badgeKey) {
+            const u = DB.users.find(x => x.id === userId);
+            if (u) {
+                u.graphicBadge = badgeKey;
+                if (badgeKey) {
+                    u.awardsCount = (u.awardsCount || 0) + 1;
+                    u.pointsCount = (u.pointsCount || 0) + 50;
+                }
+                if (badgeKey === "verified") u.verifiedSeller = true;
+                if (badgeKey === "topvip" || badgeKey === "legendary") u.isVip = true;
+                pushNotification(`You were awarded a new rank badge by Admin! (+50 Points)`, `#profile/${encodeURIComponent(u.username)}`);
+                saveDB();
+            }
+        }
+
+        function changeUserStyle(userId, styleClass) {
+            const u = DB.users.find(x => x.id === userId);
+            if (u) { u.styleClass = styleClass; saveDB(); }
+        }
+
+        /* ==========================================================================
+           10. KATEGORİ, FORUM, ALT BAŞLIK & KONU DÜZENLEME MODALLARI
+           ========================================================================== */
+        function openEditCategoryModal(catId) {
+            const cat = DB.categories.find(c => c.id === catId);
+            if (!cat) return;
+            document.getElementById("editModalTitle").textContent = "Edit Category Title";
+            document.getElementById("editModalBody").innerHTML = `
+                <div class="form-group"><label>Category Title</label><input type="text" id="editCatVal" value="${escapeHtml(cat.title)}"></div>
+                <button class="btn btn-red" onclick="saveCategoryVal('${cat.id}')">Save</button>
+            `;
+            document.getElementById("editModal").classList.add("active");
+        }
+
+        function saveCategoryVal(catId) {
+            const cat = DB.categories.find(c => c.id === catId);
+            const v = document.getElementById("editCatVal").value.trim();
+            if (cat && v) { cat.title = v; saveDB(); closeModal("editModal"); route(); }
+        }
+
+        function openEditForumModal(catId, forumId) {
+            const found = findForumById(forumId);
+            if (!found) return;
+            document.getElementById("editModalTitle").textContent = "Edit Forum Section";
+            document.getElementById("editModalBody").innerHTML = `
+                <div class="form-group"><label>Forum Title</label><input type="text" id="editForumTitleVal" value="${escapeHtml(found.forum.title)}"></div>
+                <div class="form-group"><label>Description</label><textarea id="editForumDescVal" rows="3">${escapeHtml(found.forum.desc)}</textarea></div>
+                <button class="btn btn-red" onclick="saveForumVal('${forumId}')">Save</button>
+            `;
+            document.getElementById("editModal").classList.add("active");
+        }
+
+        function saveForumVal(forumId) {
+            const found = findForumById(forumId);
+            if (!found) return;
+            found.forum.title = document.getElementById("editForumTitleVal").value.trim() || found.forum.title;
+            found.forum.desc = document.getElementById("editForumDescVal").value.trim();
+            saveDB();
+            closeModal("editModal");
+            route();
+        }
+
+        function editSubforum(forumId, subIdx) {
+            const found = findForumById(forumId);
+            if (!found) return;
+            const currentName = found.forum.subs[subIdx] || "";
+            document.getElementById("editModalTitle").textContent = "Edit Sub-Forum";
+            document.getElementById("editModalBody").innerHTML = `
+                <div class="form-group"><label>Sub-Forum Name</label><input type="text" id="editSubVal" value="${escapeHtml(currentName)}"></div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-red" onclick="saveSubforumVal('${forumId}', ${subIdx})">Save</button>
+                    <button class="btn btn-dark" onclick="deleteSubforumVal('${forumId}', ${subIdx})">Delete Sub-Forum</button>
+                </div>
+            `;
+            document.getElementById("editModal").classList.add("active");
+        }
+
+        function saveSubforumVal(forumId, subIdx) {
+            const found = findForumById(forumId);
+            const val = document.getElementById("editSubVal").value.trim();
+            if (found && val) { found.forum.subs[subIdx] = val; saveDB(); closeModal("editModal"); route(); }
+        }
+
+        function deleteSubforumVal(forumId, subIdx) {
+            const found = findForumById(forumId);
+            if (found) { found.forum.subs.splice(subIdx, 1); saveDB(); closeModal("editModal"); route(); }
+        }
+
+        function addSubforum(forumId) {
+            const found = findForumById(forumId);
+            if (!found) return;
+            document.getElementById("editModalTitle").textContent = "Add Sub-Forum";
+            document.getElementById("editModalBody").innerHTML = `
+                <div class="form-group"><label>New Sub-Forum Name</label><input type="text" id="newSubVal" placeholder="e.g. VIP Requests"></div>
+                <button class="btn btn-green" onclick="saveNewSubforum('${forumId}')">Add</button>
+            `;
+            document.getElementById("editModal").classList.add("active");
+        }
+
+        function saveNewSubforum(forumId) {
+            const found = findForumById(forumId);
+            const val = document.getElementById("newSubVal").value.trim();
+            if (found && val) {
+                if (!Array.isArray(found.forum.subs)) found.forum.subs = [];
+                found.forum.subs.push(val);
+                saveDB();
+                closeModal("editModal");
+                route();
+            }
+        }
+
+        function openEditUserThreadModal(thId) {
+            const th = DB.userThreads.find(x => x.id === thId);
+            if (!th) return;
+            document.getElementById("editModalTitle").textContent = "Edit Thread Title";
+            document.getElementById("editModalBody").innerHTML = `
+                <div class="form-group"><label>Thread Title</label><input type="text" id="editUserThVal" value="${escapeHtml(th.title)}"></div>
+                <button class="btn btn-red" onclick="saveUserThreadVal('${th.id}')">Save</button>
+            `;
+            document.getElementById("editModal").classList.add("active");
+        }
+
+        function saveUserThreadVal(thId) {
+            const th = DB.userThreads.find(x => x.id === thId);
+            const v = document.getElementById("editUserThVal").value.trim();
+            if (th && v) { th.title = v; saveDB(); closeModal("editModal"); route(); }
+        }
+
+        function deleteUserThread(thId) {
+            if (!confirm("Delete this thread permanently?")) return;
+            DB.userThreads = DB.userThreads.filter(x => x.id !== thId);
+            saveDB();
+            if (location.hash.startsWith("#thread/")) location.hash = "#home";
+            else route();
+        }
+
+        /* ==========================================================================
+           11. GELİŞMİŞ ARAMA
+           ========================================================================== */
+        function handleGlobalSearch(ev) {
+            const q = ev.target.value.toLowerCase().trim();
+            if (!q) {
+                if (location.hash === "#home") renderHomePage(document.getElementById("appRoot"));
+                return;
+            }
+            const root = document.getElementById("appRoot");
+            const matchedUserTh = DB.userThreads.filter(x =>
+                x.title.toLowerCase().includes(q) ||
+                x.authorName.toLowerCase().includes(q) ||
+                (x.tags && x.tags.toLowerCase().includes(q)) ||
+                x.posts.some(p => p.content.toLowerCase().includes(q))
+            );
+            const matchedTop = DB.topThreads.filter(x => x.title.toLowerCase().includes(q) || x.author.toLowerCase().includes(q));
+            const matchedForums = [];
+            DB.categories.forEach(c => {
+                c.forums.forEach(f => {
+                    if (f.title.toLowerCase().includes(q) || (f.subs || []).some(s => s.toLowerCase().includes(q))) matchedForums.push(f);
+                });
+            });
+
+            root.innerHTML = `
+                <div class="breadcrumb-bar">
+                    <strong>Search Results for: "${escapeHtml(q)}"</strong>
+                    <a href="#home" class="btn btn-dark btn-sm" onclick="document.getElementById('globalSearchInput').value=''">Clear Search</a>
+                </div>
+                <div class="category-block">
+                    <div class="category-header"><h2>Threads (${matchedUserTh.length + matchedTop.length})</h2></div>
+                    ${matchedUserTh.map(th => `<div class="node-row"><a href="#thread/${encodeURIComponent(th.id)}" class="node-title">${escapeHtml(th.title)}</a><span>By ${escapeHtml(th.authorName)}</span></div>`).join("")}
+                    ${matchedTop.map(th => `<div class="node-row"><a href="#thread/${encodeURIComponent(th.id)}" class="node-title">${escapeHtml(th.title)}</a><span>By ${escapeHtml(th.author)}</span></div>`).join("")}
+                    ${(matchedUserTh.length + matchedTop.length) === 0 ? `<div style="padding:16px; color:var(--text-muted);">No matching threads found.</div>` : ""}
+                </div>
+                <div class="category-block">
+                    <div class="category-header"><h2>Forum Sections (${matchedForums.length})</h2></div>
+                    ${matchedForums.map(f => `<div class="node-row"><a href="#forum/${f.id}" class="node-title">${escapeHtml(f.title)}</a><span>${escapeHtml(f.desc)}</span></div>`).join("") || `<div style="padding:16px; color:var(--text-muted);">No matching sections found.</div>`}
+                </div>
+            `;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return "";
+            const map = {
+                '&': '\u0026amp;',
+                '<': '\u0026lt;',
+                '>': '\u0026gt;',
+                '"': '\u0026quot;'
+            };
+            return String(str).replace(/[&<>"]/g, function(m) { return map[m]; });
+        }
+
+        // İlk Başlatma
+        applyAppearance();
+        route();
+    </script>
+</body>
+</html>

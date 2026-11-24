@@ -100,7 +100,7 @@
         .grb-topvip { background: linear-gradient(135deg, #292203 0%, #544606 100%); border: 1.5px solid #ffd32a; color: #ffd32a; text-shadow: 0 0 8px rgba(255, 211, 42, 0.85); }
         .grb-verified { background: linear-gradient(135deg, #072914 0%, #0d4f26 100%); border: 1.5px solid #2ecc71; color: #2ecc71; text-shadow: 0 0 8px rgba(46, 204, 113, 0.85); }
 
-        /* ================= HEADER (LOGO KALDIRILDI, OPSİYONEL YÜKLENEN LOGO DESTEKLİ) ================= */
+        /* ================= HEADER ================= */
         .top-header {
             position: relative;
             height: 120px;
@@ -792,7 +792,6 @@
 </head>
 <body>
 
-    <!-- ÜST HEADER -->
     <header class="top-header" id="mainHeaderBar">
         <div class="header-top-bar">
             <div class="brand-slogan" id="headerSlogan">Anarky Underground Network</div>
@@ -810,13 +809,11 @@
             </div>
         </div>
 
-        <!-- Yüklenen özel logo varsa burada gösterilir -->
         <div class="center-logo-area" id="centerLogoArea">
             <a href="#home" id="logoContainer"></a>
         </div>
     </header>
 
-    <!-- NAVİGASYON BAR -->
     <nav class="navbar">
         <ul class="nav-links">
             <li><a href="#home" data-nav="home"><i class="fa-solid fa-house"></i> Home</a></li>
@@ -831,10 +828,8 @@
         <div class="nav-user-menu" id="navUserArea"></div>
     </nav>
 
-    <!-- ANA İÇERİK -->
     <main class="container" id="appRoot"></main>
 
-    <!-- GİRİŞ / KAYIT MODALI -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <div class="modal-header">
@@ -845,7 +840,6 @@
         </div>
     </div>
 
-    <!-- DÜZENLEME MODALI -->
     <div class="modal-overlay" id="editModal">
         <div class="modal-box">
             <div class="modal-header">
@@ -856,7 +850,6 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer>
         <div>© 2026 <strong id="footerSiteName">Anarky Forum</strong>. All rights reserved.</div>
         <div style="display:flex; gap:14px;">
@@ -869,6 +862,126 @@
     </footer>
 
     <script>
+        /* ==========================================================================
+           0. TURSO / VERCEL API BAĞLANTISI (.ONION İÇİN VERCEL URL YAZ)
+           ========================================================================== */
+        const API_BASE = ""; // .onion sitesindeyse "https://SENIN-SITEN.vercel.app" yap
+
+        async function apiPost(path, payload) {
+            const res = await fetch(`${API_BASE}${path}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+            return data;
+        }
+
+        async function apiGet(path) {
+            const res = await fetch(`${API_BASE}${path}`);
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+            return data;
+        }
+
+        function mapDbUserToLocal(dbUser, extra = {}) {
+            return {
+                id: "u-" + dbUser.id,
+                dbId: dbUser.id,
+                username: dbUser.username,
+                email: dbUser.email || "",
+                role: dbUser.role || "member",
+                styleClass: dbUser.role === "admin" ? "role-admin" : (extra.styleClass || "role-member"),
+                graphicBadge: dbUser.role === "admin" ? "founder" : (extra.graphicBadge || ""),
+                isVip: extra.isVip || false,
+                approved: true,
+                verifiedSeller: extra.verifiedSeller || false,
+                helloPosted: true,
+                bio: extra.bio || "Registered member on Anarky Forum.",
+                messagesCount: extra.messagesCount || 0,
+                threadsCount: extra.threadsCount || 0,
+                reactionsCount: extra.reactionsCount || 0,
+                pointsCount: extra.pointsCount || 0,
+                awardsCount: extra.awardsCount || 0,
+                birthdayToday: false,
+                avatarColor: extra.avatarColor || (dbUser.role === "admin" ? "#d92638" : "#2980b9"),
+                avatarUrl: extra.avatarUrl || "",
+                bannerUrl: extra.bannerUrl || ""
+            };
+        }
+
+        async function syncForumFromBackend() {
+            try {
+                const [tRes, rRes] = await Promise.all([
+                    apiGet("/api/threads"),
+                    apiGet("/api/replies")
+                ]);
+
+                const repliesByThread = {};
+                for (const r of (rRes.replies || [])) {
+                    const key = String(r.thread_id);
+                    if (!repliesByThread[key]) repliesByThread[key] = [];
+                    repliesByThread[key].push({
+                        id: "db-r-" + r.id,
+                        authorId: "u-" + r.author_id,
+                        authorName: r.author_username || "Member",
+                        authorEmail: r.author_email || "",
+                        content: r.content,
+                        reactions: 0,
+                        date: r.created_at || ""
+                    });
+                }
+
+                DB.userThreads = (tRes.threads || []).map(t => {
+                    let parsedOpts = null;
+                    if (t.poll_options) {
+                        try { parsedOpts = JSON.parse(t.poll_options); } catch (_) { parsedOpts = null; }
+                    }
+                    const existingUser = DB.users.find(u => u.username.toLowerCase() === String(t.author_username || "").toLowerCase());
+                    if (!existingUser && t.author_username) {
+                        DB.users.push(mapDbUserToLocal({
+                            id: t.author_id,
+                            username: t.author_username,
+                            email: t.author_email || "",
+                            role: "member"
+                        }));
+                    }
+
+                    const replyPosts = repliesByThread[String(t.id)] || [];
+                    return {
+                        id: "db-t-" + t.id,
+                        dbThreadId: t.id,
+                        forumId: t.category || "general",
+                        prefix: "",
+                        prefixClass: "",
+                        title: t.title,
+                        authorEmail: t.author_email || "",
+                        poll: t.poll_question && Array.isArray(parsedOpts) ? { question: t.poll_question, options: parsedOpts } : null,
+                        authorId: "u-" + t.author_id,
+                        authorName: t.author_username || "Member",
+                        date: t.created_at || "",
+                        posts: [
+                            {
+                                id: "db-p-" + t.id,
+                                authorId: "u-" + t.author_id,
+                                authorName: t.author_username || "Member",
+                                authorEmail: t.author_email || "",
+                                content: t.content,
+                                reactions: 0,
+                                date: t.created_at || ""
+                            },
+                            ...replyPosts
+                        ]
+                    };
+                });
+
+                localStorage.setItem("anarky_forum_v7", JSON.stringify(DB));
+            } catch (err) {
+                console.warn("Backend sync skipped:", err.message);
+            }
+        }
+
         /* ==========================================================================
            1. BAŞLANGIÇ VERİLERİ & ÖZEL GRAFİK ROZET TANIMLARI
            ========================================================================== */
@@ -982,11 +1095,11 @@
         ];
 
         const INITIAL_USERS = [
-            { id: "u-admin", username: "admin", password: "admin", email: "admin@anarky.local", role: "admin", styleClass: "role-admin", graphicBadge: "founder", isVip: true, approved: true, verifiedSeller: true, helloPosted: true, bio: "Founder & Big Boss at Anarky Forum.", messagesCount: 14820, threadsCount: 0, reactionsCount: 52478, pointsCount: 125535, awardsCount: 44, birthdayToday: false, avatarColor: "#d92638", avatarUrl: "", bannerUrl: "" },
-            { id: "u-callienix", username: "callienix13", password: "123", email: "calli@anarky.local", role: "member", styleClass: "role-legendary", graphicBadge: "legendary", isVip: true, approved: true, verifiedSeller: true, helloPosted: true, bio: "Legendary Member & Verified Specialist.", messagesCount: 33989, threadsCount: 0, reactionsCount: 9309, pointsCount: 113, awardsCount: 14, birthdayToday: false, avatarColor: "#8c8856", avatarUrl: "", bannerUrl: "" },
-            { id: "u-demon", username: "DemonCarderX321", password: "123", email: "demon@anarky.local", role: "member", styleClass: "role-vip", graphicBadge: "topvip", isVip: true, approved: true, verifiedSeller: false, helloPosted: true, bio: "Top Specialist & VIP Contributor.", messagesCount: 2884, threadsCount: 0, reactionsCount: 1113, pointsCount: 113, awardsCount: 6, birthdayToday: false, avatarColor: "#d63384", avatarUrl: "", bannerUrl: "" },
-            { id: "u-verifox", username: "VeriFox", password: "123", email: "verifox@anarky.local", role: "member", styleClass: "role-verified", graphicBadge: "verified", isVip: false, approved: true, verifiedSeller: true, helloPosted: true, bio: "Official Verified Seller & Escrow Vendor.", messagesCount: 234, threadsCount: 0, reactionsCount: 533, pointsCount: 16, awardsCount: 5, birthdayToday: false, avatarColor: "#27ae60", avatarUrl: "", bannerUrl: "" },
-            { id: "u-chrollo", username: "Chrollo Lucilfer", password: "123", email: "chrollo@anarky.local", role: "member", styleClass: "role-mod", graphicBadge: "expert", isVip: true, approved: true, verifiedSeller: false, helloPosted: true, bio: "Security & Automation Specialist.", messagesCount: 4332, threadsCount: 0, reactionsCount: 18848, pointsCount: 113, awardsCount: 12, birthdayToday: true, avatarColor: "#7e22ce", avatarUrl: "", bannerUrl: "" }
+            { id: "u-admin", dbId: 1, username: "admin", email: "admin@anarky.local", role: "admin", styleClass: "role-admin", graphicBadge: "founder", isVip: true, approved: true, verifiedSeller: true, helloPosted: true, bio: "Founder & Big Boss at Anarky Forum.", messagesCount: 14820, threadsCount: 0, reactionsCount: 52478, pointsCount: 125535, awardsCount: 44, birthdayToday: false, avatarColor: "#d92638", avatarUrl: "", bannerUrl: "" },
+            { id: "u-callienix", dbId: 2, username: "callienix13", email: "calli@anarky.local", role: "member", styleClass: "role-legendary", graphicBadge: "legendary", isVip: true, approved: true, verifiedSeller: true, helloPosted: true, bio: "Legendary Member & Verified Specialist.", messagesCount: 33989, threadsCount: 0, reactionsCount: 9309, pointsCount: 113, awardsCount: 14, birthdayToday: false, avatarColor: "#8c8856", avatarUrl: "", bannerUrl: "" },
+            { id: "u-demon", dbId: 3, username: "DemonCarderX321", email: "demon@anarky.local", role: "member", styleClass: "role-vip", graphicBadge: "topvip", isVip: true, approved: true, verifiedSeller: false, helloPosted: true, bio: "Top Specialist & VIP Contributor.", messagesCount: 2884, threadsCount: 0, reactionsCount: 1113, pointsCount: 113, awardsCount: 6, birthdayToday: false, avatarColor: "#d63384", avatarUrl: "", bannerUrl: "" },
+            { id: "u-verifox", dbId: 4, username: "VeriFox", email: "verifox@anarky.local", role: "member", styleClass: "role-verified", graphicBadge: "verified", isVip: false, approved: true, verifiedSeller: true, helloPosted: true, bio: "Official Verified Seller & Escrow Vendor.", messagesCount: 234, threadsCount: 0, reactionsCount: 533, pointsCount: 16, awardsCount: 5, birthdayToday: false, avatarColor: "#27ae60", avatarUrl: "", bannerUrl: "" },
+            { id: "u-chrollo", dbId: 5, username: "Chrollo Lucilfer", email: "chrollo@anarky.local", role: "member", styleClass: "role-mod", graphicBadge: "expert", isVip: true, approved: true, verifiedSeller: false, helloPosted: true, bio: "Security & Automation Specialist.", messagesCount: 4332, threadsCount: 0, reactionsCount: 18848, pointsCount: 113, awardsCount: 12, birthdayToday: true, avatarColor: "#7e22ce", avatarUrl: "", bannerUrl: "" }
         ];
 
         function loadDB() {
@@ -1198,7 +1311,7 @@
         });
 
         /* ==========================================================================
-           3. GİRİŞ & KAYIT MODALI
+           3. GİRİŞ & KAYIT MODALI (TURSO /api/auth ENTEGRASYONLU)
            ========================================================================== */
         function openAuthModal(mode) {
             const title = document.getElementById("authModalTitle");
@@ -1206,7 +1319,7 @@
             if (mode === "login") {
                 title.textContent = "Log In";
                 body.innerHTML = `
-                    <div class="form-group"><label>Username</label><input type="text" id="loginUser" placeholder="Username"></div>
+                    <div class="form-group"><label>Username or Email</label><input type="text" id="loginUser" placeholder="Username or Email"></div>
                     <div class="form-group"><label>Password</label><input type="password" id="loginPass" placeholder="••••••"></div>
                     <button class="btn btn-red" style="width:100%; justify-content:center;" onclick="submitLogin()">Log In</button>
                 `;
@@ -1214,11 +1327,11 @@
                 title.textContent = "Register";
                 body.innerHTML = `
                     <div class="alert-banner alert-info" style="font-size:11.5px;">
-                        New members must post 1 introduction thread in <b>Hello World!</b> first and wait for Admin approval before posting in other sections.
+                        New members are saved directly to Turso database and can post threads across sections.
                     </div>
                     <div class="form-group"><label>Username</label><input type="text" id="regUser"></div>
                     <div class="form-group"><label>Email</label><input type="email" id="regEmail"></div>
-                    <div class="form-group"><label>Password</label><input type="password" id="regPass"></div>
+                    <div class="form-group"><label>Password (min 4 chars)</label><input type="password" id="regPass"></div>
                     <button class="btn btn-red" style="width:100%; justify-content:center;" onclick="submitRegister()">Register</button>
                 `;
             }
@@ -1227,53 +1340,68 @@
 
         function closeModal(id) { document.getElementById(id).classList.remove("active"); }
 
-        function submitLogin() {
+        async function submitLogin() {
             const u = document.getElementById("loginUser").value.trim();
             const p = document.getElementById("loginPass").value.trim();
-            const found = DB.users.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
-            if (!found) { alert("Invalid username or password!"); return; }
-            DB.currentUserId = found.id;
-            if (found.role === "admin") DB.adminAuthenticated = true;
-            saveDB();
-            closeModal("authModal");
-            route();
+            if (!u || !p) { alert("Username/Email and password are required."); return; }
+
+            try {
+                const res = await apiPost("/api/auth", { action: "login", username: u, password: p });
+                const dbUser = res.user;
+                let localUser = DB.users.find(x => x.username.toLowerCase() === dbUser.username.toLowerCase());
+                if (!localUser) {
+                    localUser = mapDbUserToLocal(dbUser);
+                    DB.users.push(localUser);
+                } else {
+                    localUser.dbId = dbUser.id;
+                    localUser.email = dbUser.email || localUser.email;
+                    localUser.role = dbUser.role || localUser.role;
+                    localUser.approved = true;
+                }
+                DB.currentUserId = localUser.id;
+                if (localUser.role === "admin") DB.adminAuthenticated = true;
+                saveDB();
+                await syncForumFromBackend();
+                closeModal("authModal");
+                route();
+                return;
+            } catch (apiErr) {
+                const found = DB.users.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
+                if (found) {
+                    DB.currentUserId = found.id;
+                    if (found.role === "admin") DB.adminAuthenticated = true;
+                    saveDB();
+                    closeModal("authModal");
+                    route();
+                    return;
+                }
+                alert(apiErr.message || "Invalid username or password!");
+            }
         }
 
-        function submitRegister() {
+        async function submitRegister() {
             const u = document.getElementById("regUser").value.trim();
             const e = document.getElementById("regEmail").value.trim();
             const p = document.getElementById("regPass").value.trim();
-            if (!u || !p) { alert("Username and password are required."); return; }
-            if (DB.users.some(x => x.username.toLowerCase() === u.toLowerCase())) { alert("Username already exists."); return; }
-            const newUser = {
-                id: "u-" + Date.now(),
-                username: u,
-                password: p,
-                email: e || `${u}@anarky.local`,
-                role: "member",
-                styleClass: "role-member",
-                graphicBadge: "",
-                isVip: false,
-                approved: false,
-                verifiedSeller: false,
-                helloPosted: false,
-                bio: "New member of Anarky Forum.",
-                messagesCount: 0,
-                threadsCount: 0,
-                reactionsCount: 0,
-                pointsCount: 0,
-                awardsCount: 0,
-                birthdayToday: false,
-                avatarColor: "#2980b9",
-                avatarUrl: "",
-                bannerUrl: ""
-            };
-            DB.users.push(newUser);
-            DB.currentUserId = newUser.id;
-            pushNotification(`New member ${u} registered and needs Hello World! approval.`, "#admin");
-            saveDB();
-            closeModal("authModal");
-            location.hash = "#forum/hello-world";
+            if (!u || !e || p.length < 4) {
+                alert("Username, email and at least 4-character password are required.");
+                return;
+            }
+
+            try {
+                const res = await apiPost("/api/auth", { action: "register", username: u, email: e, password: p });
+                const newUser = mapDbUserToLocal(res.user);
+                if (!DB.users.some(x => x.username.toLowerCase() === newUser.username.toLowerCase())) {
+                    DB.users.push(newUser);
+                }
+                DB.currentUserId = newUser.id;
+                pushNotification(`Welcome ${newUser.username}! Your account is saved in Turso.`, "#home");
+                saveDB();
+                closeModal("authModal");
+                route();
+            } catch (err) {
+                alert(err.message || "Registration failed.");
+            }
         }
 
         function logoutUser() {
@@ -1326,7 +1454,7 @@
         }
 
         /* ==========================================================================
-           5. ANA SAYFA (TAM GENİŞLİK GIF REKLAMLAR + TIKLANABİLİR 1-15 KONULAR + KATEGORİLER)
+           5. ANA SAYFA
            ========================================================================== */
         function getActiveGifAds() {
             return DB.gifAds.filter(g => g.active && g.gifUrl);
@@ -1412,7 +1540,7 @@
                             <li class="tab-item" onclick="switchStatsTab(this, 'replied')">Most replied</li>
                             <li class="tab-item" onclick="switchStatsTab(this, 'members')">Latest members</li>
                         </ul>
-                        <div style="padding:5px; color:var(--text-muted); cursor:pointer;" onclick="renderStatsList(activeStatsTab)"><i class="fa-solid fa-rotate-right"></i></div>
+                        <div style="padding:5px; color:var(--text-muted); cursor:pointer;" onclick="refreshStatsAndSync()"><i class="fa-solid fa-rotate-right"></i></div>
                     </div>
                     <div class="thread-list" id="statsThreadList"></div>
                 </section>
@@ -1498,6 +1626,11 @@
             });
 
             root.innerHTML = html;
+            renderStatsList(activeStatsTab);
+        }
+
+        async function refreshStatsAndSync() {
+            await syncForumFromBackend();
             renderStatsList(activeStatsTab);
         }
 
@@ -1619,7 +1752,7 @@
         }
 
         /* ==========================================================================
-           6. FORUM BÖLÜMÜ, POST THREAD EDİTÖRÜ & PUAN SİSTEMİ
+           6. FORUM BÖLÜMÜ, POST THREAD EDİTÖRÜ & TURSO /api/threads + /api/replies
            ========================================================================== */
         function checkPostPermission(user, forum) {
             if (!user) return { ok: false, msg: "Please Log In or Register first to post threads." };
@@ -1790,7 +1923,7 @@
                 html += `<div style="padding:28px; text-align:center; color:var(--text-muted);">No threads posted in this section yet. Click "Post thread" above to create one.</div>`;
             } else {
                 threads.forEach(th => {
-                    const authorObj = DB.users.find(u => u.id === th.authorId);
+                    const authorObj = DB.users.find(u => u.id === th.authorId || u.username === th.authorName);
                     let badges = "";
                     if (authorObj?.role === "admin") badges += `<span class="badge badge-admin">Admin</span>`;
                     if (authorObj?.verifiedSeller) badges += `<span class="badge badge-verified"><i class="fa-solid fa-circle-check"></i> Verified Seller</span>`;
@@ -1876,6 +2009,10 @@
             updatePostPreview();
         }
 
+        function insertCodeBlock() {
+            insertFormatting("\n```\n", "\n```\n");
+        }
+
         function toggleTextPreview() {
             const prevBox = document.getElementById("liveTextPreviewBox");
             const prevContent = document.getElementById("liveTextPreviewContent");
@@ -1886,7 +2023,7 @@
             prevBox.style.display = isHidden ? "block" : "none";
         }
 
-        function publishThread(forumId) {
+        async function publishThread(forumId) {
             const user = getCurrentUser();
             const found = findForumById(forumId);
             if (!user || !found) return;
@@ -1913,42 +2050,62 @@
             }
 
             let pollData = null;
+            let pollQuestion = null;
+            let pollOptions = null;
             if (composerTabMode === "poll") {
                 const q = document.getElementById("ntPollQuestion")?.value.trim() || "";
                 const optsRaw = document.getElementById("ntPollOptions")?.value.trim() || "";
                 const opts = optsRaw.split(",").map(s => s.trim()).filter(Boolean).map(label => ({ label, votes: 0 }));
-                if (q && opts.length >= 2) pollData = { question: q, options: opts };
+                if (q && opts.length >= 2) {
+                    pollData = { question: q, options: opts };
+                    pollQuestion = q;
+                    pollOptions = opts;
+                }
             }
 
-            const now = new Date().toLocaleString();
-            const th = {
-                id: "uth-" + Date.now(),
-                forumId,
-                prefix,
-                prefixClass,
-                title,
-                tags,
-                watched: watch,
-                poll: pollData,
-                authorId: user.id,
-                authorName: user.username,
-                date: now,
-                posts: [{ id: "p-" + Date.now(), authorId: user.id, authorName: user.username, content: body, reactions: 0, date: now }]
-            };
+            try {
+                const created = await apiPost("/api/threads", {
+                    author_id: user.dbId || 1,
+                    title,
+                    content: body,
+                    category: forumId,
+                    poll_question: pollQuestion,
+                    poll_options: pollOptions
+                });
+                const dbThId = created.thread?.id;
+                const thId = dbThId ? "db-t-" + dbThId : "uth-" + Date.now();
+                const now = created.thread?.created_at || new Date().toLocaleString();
 
-            DB.userThreads.unshift(th);
+                const th = {
+                    id: thId,
+                    dbThreadId: dbThId,
+                    forumId,
+                    prefix,
+                    prefixClass,
+                    title,
+                    tags,
+                    watched: watch,
+                    poll: pollData,
+                    authorId: user.id,
+                    authorName: user.username,
+                    date: now,
+                    posts: [{ id: "p-" + Date.now(), authorId: user.id, authorName: user.username, content: body, reactions: 0, date: now }]
+                };
 
-            // Konu açıldıkça Threads, Messages ve Points otomatik artar
-            user.threadsCount = (user.threadsCount || 0) + 1;
-            user.messagesCount = (user.messagesCount || 0) + 1;
-            user.pointsCount = (user.pointsCount || 0) + 25;
+                DB.userThreads.unshift(th);
+                user.threadsCount = (user.threadsCount || 0) + 1;
+                user.messagesCount = (user.messagesCount || 0) + 1;
+                user.pointsCount = (user.pointsCount || 0) + 25;
 
-            if (found.forum.isHelloWorld) user.helloPosted = true;
-            if (watch) {
-                pushNotification(`Thread "${title}" published (+25 Points).`, `#thread/${encodeURIComponent(th.id)}`);
+                if (found.forum.isHelloWorld) user.helloPosted = true;
+                if (watch) {
+                    pushNotification(`Thread "${title}" saved to Turso (+25 Points).`, `#thread/${encodeURIComponent(th.id)}`);
+                }
+                saveDB();
+                location.hash = `#thread/${encodeURIComponent(th.id)}`;
+            } catch (err) {
+                alert("Could not publish thread to Turso: " + err.message);
             }
-            saveDB();
-            location.hash = `#thread/${encodeURIComponent(th.id)}`;
         }
 
         function renderThreadDetailPage(root, threadId) {
@@ -2102,7 +2259,7 @@
             renderThreadDetailPage(document.getElementById("appRoot"), threadId);
         }
 
-        function addReply(threadId) {
+        async function addReply(threadId) {
             const user = getCurrentUser();
             if (!user) return;
             const val = document.getElementById("replyText").value.trim();
@@ -2126,13 +2283,30 @@
                 DB.userThreads.unshift(target);
             }
 
+            let createdDate = new Date().toLocaleString();
+            let replyId = "p-" + Date.now();
+            if (target.dbThreadId) {
+                try {
+                    const res = await apiPost("/api/replies", {
+                        thread_id: target.dbThreadId,
+                        author_id: user.dbId || 1,
+                        content: val
+                    });
+                    if (res.reply?.id) replyId = "db-r-" + res.reply.id;
+                    if (res.reply?.created_at) createdDate = res.reply.created_at;
+                } catch (err) {
+                    alert("Could not save reply to Turso: " + err.message);
+                    return;
+                }
+            }
+
             target.posts.push({
-                id: "p-" + Date.now(),
+                id: replyId,
                 authorId: user.id,
                 authorName: user.username,
                 content: val,
                 reactions: 0,
-                date: new Date().toLocaleString()
+                date: createdDate
             });
 
             user.messagesCount = (user.messagesCount || 0) + 1;
@@ -2146,7 +2320,7 @@
         }
 
         /* ==========================================================================
-           7. PROFİL SAYFASI (HAREKETLİ PROFİL BANNER & AVATAR + CANLI İSTATİSTİKLER)
+           7. PROFİL SAYFASI
            ========================================================================== */
         function renderProfilePage(root, username) {
             const target = DB.users.find(u => u.username.toLowerCase() === username.toLowerCase());
@@ -2568,7 +2742,7 @@
         }
 
         /* ==========================================================================
-           9. GİZLİ ADMİN PANELİ (#admin)
+           9. ADMİN PANELİ (#admin)
            ========================================================================== */
         function renderAdminPage(root) {
             if (!isAdminMode()) {
@@ -2680,7 +2854,7 @@
             `;
         }
 
-        function doAdminLogin() {
+        async function doAdminLogin() {
             const u = document.getElementById("admLoginUser").value.trim();
             const p = document.getElementById("admLoginPass").value.trim();
             if (u === "admin" && p === "admin") {
@@ -2688,6 +2862,7 @@
                 DB.currentUserId = adm.id;
                 DB.adminAuthenticated = true;
                 saveDB();
+                await syncForumFromBackend();
                 route();
             } else { alert("Invalid credentials!"); }
         }
@@ -2978,9 +3153,10 @@
             return String(str).replace(/[&<>"]/g, function(m) { return map[m]; });
         }
 
-        // İlk Başlatma
+        // İlk Başlatma ve Turso Senkronizasyonu
         applyAppearance();
         route();
+        syncForumFromBackend().then(() => route());
     </script>
 </body>
 </html>
